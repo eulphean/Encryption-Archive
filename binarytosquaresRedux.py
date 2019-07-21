@@ -4,10 +4,8 @@ import math
 #width = 1760
 #this is the parameter you change to change the width
 
-onesandzerosfile = open("Todays Paper NYT.txt", "r")
-
+onesandzerosfile = open("Message_Binary.txt", "r")
 onesandzeros = onesandzerosfile.read()
-
 onesandzerosfile.close()
 
 def makelonggarbagestring(width):
@@ -29,8 +27,8 @@ def garbageparitystring(width,parity):
         if int(math.fmod(parity,2))==0: crap = crap+"01"
         if int(math.fmod(parity,2))==1: crap = crap+"10"
     return crap
-print(garbageparitystring(10,1))
-print(garbageparitystring(10,2))
+#print(garbageparitystring(10,1))
+#print(garbageparitystring(10,2))
 
 def longgarbage(width):
     initial = ""
@@ -44,7 +42,7 @@ def longgarbage(width):
 def padstring(string,width):
     return longgarbage(width)+string+longgarbage(width)
 
-print("hello"+longgarbage(20))
+#print("hello"+longgarbage(20))
 
 def breakintochunks(string, width):
     goodstring = padstring(corlength(string, width),width)
@@ -61,15 +59,15 @@ def breakintochunks(string, width):
     return [L,chunks]
 #this does the grunt work of breaking our super long string into managable pieces                
 
-print(str(int(math.fmod(7,2))))
+#print(str(int(math.fmod(7,2))))
 
 prepretest = breakintochunks(onesandzeros,1760)
 pretest = prepretest[1]
 test = pretest[187]
-print(test)
-print(str(len(test)))
+#print(test)
+#print(str(len(test)))
 
-print(makelonggarbagestring(24))
+#print(makelonggarbagestring(24))
 
 #actual length is EIGHT WIDER than input because of padding
 def makeimagefile(string, width):
@@ -99,7 +97,7 @@ def makeimagefile(string, width):
     #for x in range(0,len(lastlist)):
     #    color = int(lastlist[x])
     #    draw.point((x,L-1),color)
-    output.save("Todays Paper NYT.png", 'PNG')
+    output.save("ResultImage.png", 'PNG')
     print("Done")
 
-makeimagefile(onesandzeros,3976)
+makeimagefile(onesandzeros, 700)
