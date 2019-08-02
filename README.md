@@ -17,3 +17,8 @@ sudo pip install pycrypto, pip list (to ensure it installed) => For Encrypto.py
 sudo pip install Pillow, pip list (to ensure it installed) => For Decrypt.py
 
 Tkinter comes installed by default with python. I will be using this library to develop the User interface for this project. 
+Nice tutorial for tkinter that I'll be using to develop this application. 
+https://www.datacamp.com/community/tutorials/gui-tkinter-python
+
+Python 3.7.4 Official Documentation
+https://docs.python.org/3/
