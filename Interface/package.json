@@ -1,23 +1,24 @@
 {
-  "name": "ethereumlabor",
+  "name": "EncyrptionArchive",
   "version": "1.0.0",
-  "description": "A project to visualize the Ethereum blockchain.",
+  "description": "An interactive application to encyrpt input text messages.",
   "main": "src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eulphean/EthereumLabor.git"
+    "url": "git+https://github.com/eulphean/EncryptionArchive.git"
   },
   "author": "Amay Kataria",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/eulphean/EthereumLabor/issues"
+    "url": "https://github.com/eulphean/EncryptionArchive/issues"
   },
-  "homepage": "https://github.com/eulphean/EthereumLabor#readme",
+  "homepage": "https://github.com/eulphean/EncryptionArchive#readme",
   "devDependencies": {
     "browser-sync": "^2.26.7",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "osc": "^2.2.3"
   }
 }
