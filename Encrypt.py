@@ -35,17 +35,17 @@ ciphertext = iv + cipher.encrypt(plaintext)
 # Execution begins here. 
 ###
 
-FarsiMsgFile = open('Message.txt', 'rb').read()
+FarsiMsgFile = open('Test.mp4', 'rb').read()
 FarsiMsgEncrypted = iv + cipher.encrypt(FarsiMsgFile)
 FarsiMsgBinary = bin(int(binascii.hexlify(FarsiMsgEncrypted), 16))[2:]
 #this opens the png file, converts it to 0's and 1's, and encrpyts it.
 
-myfile = open("Message_Binary.txt", "w+")
+myfile = open("Test_Binary.txt", "w+")
 myfile.write(FarsiMsgBinary)
 myfile.close()
 #this generates a text file of the encrypted message
 
-alsomyfile = open("Encryption_Key.txt", "w+")
+alsomyfile = open("Encryption_Test_Key.txt", "w+")
 alsomyfile.write(key)
 alsomyfile.close()
 #this generates a text file containing the key

@@ -22,3 +22,14 @@ https://www.datacamp.com/community/tutorials/gui-tkinter-python
 
 Python 3.7.4 Official Documentation
 https://docs.python.org/3/
+
+
+Things to add in the GUI
+1: Text box
+2: Encryption key
+3: Encrypted binary
+4: Image
+5: Button
+6: Title
+
+Create a sketch document. 

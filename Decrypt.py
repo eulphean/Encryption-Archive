@@ -4,7 +4,7 @@ import math
 #width = 1760
 #this is the parameter you change to change the width
 
-onesandzerosfile = open("Message_Binary.txt", "r")
+onesandzerosfile = open("Test_Binary.txt", "r")
 onesandzeros = onesandzerosfile.read()
 onesandzerosfile.close()
 
@@ -97,7 +97,7 @@ def makeimagefile(string, width):
     #for x in range(0,len(lastlist)):
     #    color = int(lastlist[x])
     #    draw.point((x,L-1),color)
-    output.save("ResultImage.png", 'PNG')
+    output.save("TestImage.png", 'PNG')
     print("Done")
 
-makeimagefile(onesandzeros, 700)
+makeimagefile(onesandzeros, 3976)
