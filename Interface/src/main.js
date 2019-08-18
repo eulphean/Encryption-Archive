@@ -8,7 +8,8 @@ var title; var output; var input;
 var bgColor = 'black'; 
 var fontColor = 'white'; 
 var fontSize = '30px'; 
-var leftPadding = '50px'; 
+var paddingHorizontal = '50px'; 
+var paddingVertical = '80px';
 
 function setup() {
   var h = displayHeight/12; 

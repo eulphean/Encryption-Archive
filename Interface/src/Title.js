@@ -12,7 +12,7 @@ class Title {
         this.title.style('color', fontColor);
         this.title.style('align-items', 'center');
         this.title.style('overflow', 'hidden');
-        this.title.style('padding-left', leftPadding); 
+        this.title.style('padding-left', paddingHorizontal); 
         this.title.style('box-sizing', 'border-box'); 
     }
 }
