@@ -1,43 +1,25 @@
-var button; 
+// Desktop Layout
+//[ Encryption Archive                                               ]
+//[ Output Canvas                                                    ]
+//[ Private Key | Key                                    Date | Time ]
+//[ Text Input                                              Button   ]
+var title; var output; var input;
 
-var oscPort = new osc.WebSocketPort({
-  url: "ws://localhost:8081", // URL to your Web Socket server.
-  metadata: true
-});
-
-// Events
-oscPort.on("ready", function () {
-  console.log("OSC port initialized. ");
-});
+var bgColor = 'black'; 
+var fontColor = 'white'; 
+var fontSize = '30px'; 
+var leftPadding = '50px'; 
 
 function setup() {
-  // put setup code here
-  button = createButton('Send OSC');
-  button.position(100, 200);
-  button.size(100, 50); 
-  button.mousePressed(sendOSC); 
+  var h = displayHeight/12; 
 
-  // Open the port for communication. 
-  oscPort.open();
+  // Total 12h units of height. 
+  title = new Title(h); // 1h unit high
+  output = new Output(h, h * 8); // 8h units high
+  input = new Input(h * 9, h * 3); // 3h unit high
 }
 
 function draw() {
   // put drawing code here
-}
-
-function sendOSC() {
-  const dataToSend = "Hello"; 
-  
-  // Send data. 
-  oscPort.send({
-      address: "/data",
-      args: [
-          {
-              type: "s",
-              value: dataToSend
-          }
-      ]
-  });
-
-  console.log("Sent OSC message to OF"); 
+  output.draw(); 
 }
