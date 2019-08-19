@@ -5,6 +5,7 @@
 //[ Text Input                                              Button   ]
 var title; var output; var input;
 
+// Global format variables
 var bgColor = 'black'; 
 var fontColor = 'white'; 
 var fontSize = '25px'; 
@@ -13,11 +14,19 @@ var paddingVertical = '80px';
 var fontFamily = 'Menlo-Regular'; 
 var defaultPrivateKeyLabel = 'Private Key | '; 
 
+// Encryption bed variables
+var cellSize = 10; 
+var white; 
+var black; 
+
 // AES based encrypter. 
 var encrypter; 
 
 function setup() {
   var h = displayHeight/12; 
+
+  // Colors
+  white = color(255, 255, 255); black = color(0, 0, 0);
 
   // Total 12h units of height. 
   title = new Title(h); // 1h unit high
@@ -31,6 +40,7 @@ function setup() {
 function draw() {
   // put drawing code here
   output.draw(); 
+  noLoop();
 }
 
 function onEncrypt(message) {
