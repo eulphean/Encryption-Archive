@@ -54,6 +54,8 @@ function onEncrypt(message) {
     
     // Output set binary
     output.updateCells(binaryString); 
+
+    // Debug Messages coming from the Encrypter. 
     // console.log('Message: ' + message); 
     // console.log('Encrypted String: ' + charString); // Store this in the database
     // console.log('Encrypted Binary: ' + binaryString); // Print this on the screen
