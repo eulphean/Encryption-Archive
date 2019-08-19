@@ -49,7 +49,7 @@ class Output {
               // Create cell. 
               var xPos = j * cellSize;
               var yPos = i * cellSize; 
-              var color = (idx%2 == 0) ? white : black;
+              var color = (idx%2 == 0) ? black : white;
               var cell = new Cell(xPos, yPos, color);
               // Push cell. 
               this.cells[i][j] = cell;
@@ -60,24 +60,28 @@ class Output {
     }
 
     updateCells(binaryString) {
-        // ReInit all cells and redraw them. 
+        // Initialize . 
         this.initGrid();
         this.draw(); 
 
         // We leave 4 columns on either side. 
         var usableColumns = (this.columns-8); 
 
-        // Calculate where to add fake values to the string to make it
+        // Calculate where to add fake values to the string to make it. 
         var numRowsForString = Math.ceil(binaryString.length/usableColumns); 
         var numCellsToFill = (usableColumns * numRowsForString) - binaryString.length; 
         console.log('Length, Num cells to fill: ' + binaryString.length + ', ' + numCellsToFill);
+        
+        // Modify string to make it cover the entire width of usable columns.  
         binaryString = this.modifyBinaryString(binaryString, numCellsToFill); 
         console.log('New String Length: ' + binaryString.length);
 
+        // Figure out which row to start updating the cells. 
         var centerRow = Math.ceil(this.rows/2); 
         var startRow = centerRow - Math.floor(numRowsForString/2); 
         console.log('String rows, centerRow, startRow: ' + numRowsForString + ', ' + centerRow + ', ' + startRow);
 
+        // Update and draw the cells that I want to update.
         var item = 0;  
         for (var i = startRow; i < this.rows; i++) {
             for (var j = 4; j <= this.columns-5; j++) {
@@ -103,6 +107,7 @@ class Output {
             binaryString = binaryString + startIdx; 
             // startIdx = (startIdx + 1) % 2; 
         }
+
         return binaryString; 
     }
 }

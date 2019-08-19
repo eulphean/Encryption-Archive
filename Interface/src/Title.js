@@ -1,7 +1,7 @@
 //[ Encryption Archive                                               ]
 class Title {
     constructor(height) {
-        this.title = createDiv('Encryption Archive'); 
+        this.title = createDiv('Encryption Archive | Dylan Fish'); 
         this.title.position(0, 0);
         this.title.size(displayWidth, height);
         this.title.style('display', 'flex');
