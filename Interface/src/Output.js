@@ -28,6 +28,8 @@ class Output {
 
         // Initialize encryption bed. 
         this.initGrid(); 
+
+        console.log('Rows, Columns: ' + this.rows + ', ' + this.columns);
     }
 
     draw() {
