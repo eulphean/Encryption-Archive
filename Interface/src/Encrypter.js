@@ -24,6 +24,7 @@ class Encrypter {
 
         // Return object with the encrypted outputs
         var output = {
+            'key' : key,
             'char' : encryptedString, 
             'binary' : encryptedBinary
         }; 

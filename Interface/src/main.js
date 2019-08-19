@@ -7,9 +7,11 @@ var title; var output; var input;
 
 var bgColor = 'black'; 
 var fontColor = 'white'; 
-var fontSize = '30px'; 
+var fontSize = '25px'; 
 var paddingHorizontal = '50px'; 
 var paddingVertical = '80px';
+var fontFamily = 'Menlo-Regular'; 
+var defaultPrivateKeyLabel = 'Private Key | '; 
 
 // AES based encrypter. 
 var encrypter; 
@@ -34,7 +36,12 @@ function draw() {
 function onEncrypt(message) {
     // Encrypt the message that is written. 
     var out = encrypter.encrypt(message); 
+    var charString = out['char']; 
+    var binaryString = out['binary'];
+    var key = out['key'];
+
+    input.setPrivateKey(key); 
     console.log('Message: ' + message); 
-    console.log('Encrypted String: ' + out['char']); // Store this in the database
-    console.log('Encrypted Binary: ' + out['binary']); // Print this on the screen
+    console.log('Encrypted String: ' + charString); // Store this in the database
+    console.log('Encrypted Binary: ' + binaryString); // Print this on the screen
 }
