@@ -24,7 +24,7 @@ class Input {
 
         this.label = createDiv(defaultPrivateKeyLabel); 
         this.label.parent(this.outputContainer);
-        this.label.size(3 * w, h); 
+        this.label.size(3*w, h); 
         this.label.style('display', 'flex');
         this.label.style('align-items', 'center');
         this.label.style('margin-left', paddingHorizontal);
@@ -40,22 +40,23 @@ class Input {
         setInterval(this.updateClock.bind(this), 1000); // Call this method every 1000 second. 
 
         // Container for text input and button
+        var newH = height - height/4; 
         this.inputContainer = createDiv(); 
         this.inputContainer.parent(this.container); 
         this.inputContainer.style('display', 'flex');
-        this.inputContainer.size(displayWidth, height - height/4); 
+        this.inputContainer.size(displayWidth, newH); 
         
         // Text input using a <textarea> tag. 
         this.textInput = createElement('textarea');
         this.textInput.parent(this.inputContainer); 
-        this.textInput.attribute('cols', '39'); 
         this.textInput.attribute('placeholder', 'Type Something...');
         this.textInput.input(this.onInput.bind(this)); 
+        var tiWidth = 3*w+'px';
+        this.textInput.style('width', tiWidth);
         this.textInput.style('display', 'flex');
         this.textInput.style('align-items', 'center');
         this.textInput.style('font-size', fontSize); 
         this.textInput.style('font-family', fontFamily);
-        this.textInput.style('flex-grow', '2');
         this.textInput.style('padding-left', paddingHorizontal); 
         this.textInput.style('padding-right', paddingHorizontal); 
         this.textInput.style('padding-top', paddingVertical);
@@ -65,7 +66,8 @@ class Input {
         this.encrypt = createButton('ENCRYPT'); 
         this.encrypt.mousePressed(this.onClick.bind(this, onEncrypt));
         this.encrypt.parent(this.inputContainer); 
-        this.encrypt.style('flex-grow', '1');
+        var butWidth = w+'px';
+        this.encrypt.style('width', butWidth);
         this.encrypt.style('background', 'linear-gradient(90deg, rgba(179,179,179,1) 12%, rgba(255,254,254,1) 100%');
         this.encrypt.style('background-color', '#ddd');
         this.encrypt.style('font-familty', fontFamily);
