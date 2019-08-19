@@ -1,7 +1,7 @@
 //[ Private Key | Key                                    Date | Time ]
 //[ Text Input                                              Button   ]
 class Input {
-    constructor(yPos, height) {
+    constructor(yPos, height, onEncrypt) {
         this.container = createDiv(); 
         this.container.position(0, yPos);
         this.container.size(displayWidth, height); 
@@ -23,6 +23,7 @@ class Input {
         this.textInput.parent(this.inputContainer); 
         this.textInput.attribute('cols', '40'); 
         this.textInput.attribute('placeholder', 'Type Something...');
+        this.textInput.input(this.onInput.bind(this)); 
         this.textInput.style('display', 'flex');
         this.textInput.style('align-items', 'center');
         this.textInput.style('font-size', fontSize); 
@@ -37,6 +38,7 @@ class Input {
 
         // Encrypt button
         this.encrypt = createButton('ENCRYPT'); 
+        this.encrypt.mousePressed(this.onClick.bind(this, onEncrypt));
         this.encrypt.parent(this.inputContainer); 
         this.encrypt.attribute('disabled', true); // Enable it when there is text in text input
         this.encrypt.style('flex-grow', '1');
@@ -47,5 +49,17 @@ class Input {
         this.encrypt.style('font-familty', 'Menlo-Regular');
         this.encrypt.style('font-color', fontColor);
         this.encrypt.style('font-size', fontSize);
+    }
+
+    onClick(onEncrypt) {
+        var inputText = this.textInput.value(); 
+        // Empty the text area.
+        this.textInput.value(''); 
+        onEncrypt(inputText); 
+        this.encrypt.attribute('disabled', true);
+    }
+
+    onInput() {
+        this.encrypt.removeAttribute('disabled'); 
     }
 }
