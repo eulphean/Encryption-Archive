@@ -12,6 +12,7 @@ class Cell {
         push();
             // Translate to the center of the cell. 
             translate(this.xPos, this.yPos);
+            noStroke();
             fill(this.col);
             rect(0, 0, cellSize, cellSize); // Rather than rectangles, these will be circles actually at the center of the cell. 
         pop();
@@ -56,5 +57,34 @@ class Output {
             }
             idx++; 
         }
+    }
+
+    updateCells(binaryString) {
+        // ReInit all cells and redraw them. 
+        this.initGrid();
+        this.draw(); 
+
+        // Calculate where to start updating cells. 
+        var numRowsForString = Math.ceil(binaryString.length/(this.columns-8)); 
+        var centerRow = Math.ceil(this.rows/2); 
+        var startRow = centerRow - Math.floor(numRowsForString/2); 
+        console.log('String rows, centerRow, startRow: ' + numRowsForString + ', ' + centerRow + ', ' + startRow);
+
+        var item = 0; 
+        for (var i = startRow; i < this.rows; i++) {
+            for (var j = 5; j <= this.columns-5; j++) {
+                this.cells[i][j].col = (binaryString[item] == 0) ? black : white; 
+                this.cells[i][j].draw(); 
+                item++; 
+                if (item >= binaryString.length) {
+                    break; 
+                }
+            }
+
+            if (item >= binaryString.length) {
+                break; 
+            }
+        }
+        
     }
 }

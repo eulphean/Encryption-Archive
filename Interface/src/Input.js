@@ -75,7 +75,7 @@ class Input {
         this.disableButton(); 
     }
 
-    updateClock(dateTime) {
+    updateClock() {
         // Get current date instance.
         var now = new Date(); 
         var date = now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate();
