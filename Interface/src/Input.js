@@ -40,26 +40,41 @@ class Input {
         this.encrypt = createButton('ENCRYPT'); 
         this.encrypt.mousePressed(this.onClick.bind(this, onEncrypt));
         this.encrypt.parent(this.inputContainer); 
-        this.encrypt.attribute('disabled', true); // Enable it when there is text in text input
         this.encrypt.style('flex-grow', '1');
         this.encrypt.style('background', 'linear-gradient(90deg, rgba(179,179,179,1) 12%, rgba(255,254,254,1) 100%');
         this.encrypt.style('background-color', '#ddd');
-        this.encrypt.style('color', '#322f2f');
-        this.encrypt.style('text-shadow', '0px 1px 0px #594646');
+        // this.encrypt.style('text-shadow', '0px 1px 0px #594646');
         this.encrypt.style('font-familty', 'Menlo-Regular');
-        this.encrypt.style('font-color', fontColor);
         this.encrypt.style('font-size', fontSize);
+        this.disableButton(); 
     }
 
     onClick(onEncrypt) {
         var inputText = this.textInput.value(); 
         // Empty the text area.
         this.textInput.value(''); 
+        this.disableButton();
         onEncrypt(inputText); 
-        this.encrypt.attribute('disabled', true);
+        
     }
 
     onInput() {
+        var inputText = this.textInput.value(); 
+        if (inputText.length > 0) {
+            this.enableButton(); 
+        } else {
+            this.disableButton();
+        }
+    }
+
+    disableButton() {
+        this.encrypt.style('font-color', '#cfcfcf');
+        this.encrypt.attribute('disabled', true); 
+    }
+
+    enableButton() {
+        // Enable color
+        this.encrypt.style('font-color', fontColor);
         this.encrypt.removeAttribute('disabled'); 
     }
 }
