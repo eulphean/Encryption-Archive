@@ -20,5 +20,9 @@
     "browser-sync": "^2.26.7",
     "gulp": "^4.0.2",
     "osc": "^2.2.3"
+  },
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "lodash": "^4.17.15"
   }
 }
