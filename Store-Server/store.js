@@ -9,9 +9,11 @@ var socket = require('socket.io');
 
 // ------------------ Express webserver ------------------------ //
 var app = express(); 
-var server = app.listen(5000);
+var server = app.listen(process.env.PORT || 5000, function() {
+    console.log('Store server successfully started'); 
+});
 app.use(express.static('Public')); 
-console.log('Running express server at port 5000'); 
+
 
 // ------------------ Websocket ------------------------ //
 var io = socket(server); 

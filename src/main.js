@@ -25,6 +25,9 @@ var encrypter;
 // Socket IO
 var socket; 
 
+var localhostURL = "http://localhost:5000/app"
+var herokuURL = "https://mysterious-shore-86207.herokuapp.com/app";
+
 function setup() {
   var h = displayHeight/12; 
 
@@ -39,8 +42,9 @@ function setup() {
   // Initialize Encryption engine. 
   encrypter = new Encrypter();
   
+  
   // Connect to the socket, subscribe to events. 
-  socket = io('http://localhost:5000/app', { reconnection: false }); 
+  socket = io(herokuURL, { reconnection: false }); 
   socket.on('connect', onConnect); 
   socket.on('disconnect', onDisconnect);
 }

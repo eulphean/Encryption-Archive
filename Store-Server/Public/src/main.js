@@ -4,12 +4,16 @@ var socket;
 var entries; 
 var weave;
 var table;
+
+var localhostURL = "http://localhost:5000/store"
+var herokuURL = "https://mysterious-shore-86207.herokuapp.com/store";
+
 function setup(){
   table = document.getElementById('entries');
   table.width = displayWidth; 
   setupTableTitle(); 
 
-  socket = io('http://localhost:5000/store', { reconnection: false }); 
+  socket = io(herokuURL, { reconnection: false }); 
   socket.on('payload', onPayload); 
   socket.on('connect', onConnect); 
   socket.on('disconnect', onDisconnect);
