@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "socket.io-client": "^2.2.0"
+    "escpos": "^2.5.2",
+    "node-thermal-printer": "^4.1.0",
+    "serialport": "^7.1.5",
+    "socket.io-client": "^2.2.0",
+    "thermal-printer": "^1.0.5"
   }
 }
