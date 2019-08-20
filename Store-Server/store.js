@@ -12,25 +12,22 @@ var server = http.createServer();
 // Setup websocket
 var io = socket(server); 
 var appSocket = io.of('/app').on('connection', onAppConnect); // Connect all web instances to this. 
-var serverSocket = io.of('/server').on('connection', onServerConnect); // Connect receipt server to this. 
+var receiptSocket = io.of('/receipt').on('connection', onServerConnect); // Connect receipt server to this. 
 
 function onAppConnect(socket) {
     console.log('New App connection : ' + socket.id); 
-    socket.on('data', onAppData); 
+    socket.on('payload', onPayload); 
 }
 
 function onServerConnect(socket) {
     console.log('New Server connection : ' + socket.id);
 }
 
-function onAppData(obj) {
-    console.log(obj['binary']);
-
-    // TODO: Store it in a local database 
-    // on the node server
+function onPayload(payload) {
+    console.log('New Payload Received');
 
     // Emit this data on the server socket. 
-    serverSocket.emit('data', obj); 
+    receiptSocket.emit('payload', payload); 
 }
 
 

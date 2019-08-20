@@ -22,6 +22,9 @@ var black;
 // AES based encrypter. 
 var encrypter; 
 
+// Socket IO
+var socket; 
+
 function setup() {
   var h = displayHeight/12; 
 
@@ -34,7 +37,12 @@ function setup() {
   input = new Input(h * 9, h * 3, onEncrypt); // 3h unit high
 
   // Initialize Encryption engine. 
-  encrypter = new Encrypter(); 
+  encrypter = new Encrypter();
+  
+  // Connect to the socket, subscribe to events. 
+  socket = io('http://localhost:5000/app', { reconnection: false }); 
+  socket.on('connect', onConnect); 
+  socket.on('disconnect', onDisconnect);
 }
 
 function draw() {
@@ -50,8 +58,19 @@ function onEncrypt(message) {
     var binaryString = out['binary'];
     var key = out['key'];
 
-    input.setPrivateKey(key); 
+    // Set private key in GUI
+    input.setPrivateKey(key);
     
+    // Emit data for the database on node server. 
+    var now = new Date(); 
+    var load = {
+      key: key,
+      binary: binaryString, 
+      date: now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate(),
+      time: now.toLocaleTimeString()
+    }
+    socket.emit('payload', load); 
+
     // Output set binary
     output.updateCells(binaryString); 
 
@@ -60,3 +79,13 @@ function onEncrypt(message) {
     // console.log('Encrypted String: ' + charString); // Store this in the database
     // console.log('Encrypted Binary: ' + binaryString); // Print this on the screen
 }
+
+function onConnect() {
+  console.log('Socket: Connected');
+}
+
+function onDisconnect() {
+  console.log('Socket: Disconnected. Closing socket.'); 
+  socket.close();
+}
+
