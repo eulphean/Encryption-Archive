@@ -68,7 +68,7 @@ function onEncrypt(message) {
       binary: binaryString, 
       date: now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate(),
       time: now.toLocaleTimeString()
-    }
+    };
     socket.emit('payload', load); 
 
     // Output set binary
