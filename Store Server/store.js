@@ -36,14 +36,13 @@ var server = http.createServer(function (req, res) {   // 2 - creating server
                 res.end('POST Success'); 
             }); 
         }
-    }
-
-    // Specific URL. 
-    else if (req.url == '/') { //check the URL of the current request
-        // Create response
-        res.writeHead(200, headers);   
-        res.write('GET Success');
-        res.end();
+    } else if (req.method == 'GET') {
+        if (req.url == '/') { //check the URL of the current request
+            // Create response
+            res.writeHead(200, headers);   
+            res.write('GET Success');
+            res.end();
+        }
     }
 });
 
