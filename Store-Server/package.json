@@ -4,7 +4,8 @@
   "description": "Server side implementation to store all the responses from Encyption Archive",
   "main": "store.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node store.js"
   },
   "author": "",
   "license": "ISC",
