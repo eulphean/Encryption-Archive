@@ -1,0 +1,14 @@
+{
+  "name": "store-server",
+  "version": "1.0.0",
+  "description": "Server side implementation to store all the responses from Encyption Archive",
+  "main": "store.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
