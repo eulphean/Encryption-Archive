@@ -105,7 +105,7 @@ class Output {
         var startIdx = (last == 1) ? 0 : 1; 
         for (var i = 0; i < numCellsToFill; i++) {
             binaryString = binaryString + startIdx; 
-            // startIdx = (startIdx + 1) % 2; 
+            startIdx = (startIdx + 1) % 2; 
         }
 
         return binaryString; 

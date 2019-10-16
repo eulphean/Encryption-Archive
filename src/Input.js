@@ -21,7 +21,6 @@ class Input {
         this.outputContainer.style('display', 'flex');
 
         // Private key container
-
         this.label = createDiv(defaultPrivateKeyLabel); 
         this.label.parent(this.outputContainer);
         this.label.size(3*w, h); 
