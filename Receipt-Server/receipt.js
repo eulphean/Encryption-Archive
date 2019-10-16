@@ -3,11 +3,11 @@ var localhostURL = "http://localhost:5000/receipt"
 var herokuURL = "https://mysterious-shore-86207.herokuapp.com/receipt";
 var socket = io.connect(herokuURL, {
     reconnection: true
-};
+});
 
 var escpos = require('escpos');
 // Setup device and printer with the baudrate. 
-var device = new escpos.Serial('/dev/cu.Repleo-PL2303-00002014', {
+var device = new escpos.Serial('/dev/cu.Repleo-PL2303-00001014', {
     autoOpen: true,
     baudRate: 38400,
 });
@@ -42,7 +42,7 @@ function onPayload (payload) {
        printer.align('ct'); 
        printer.style('normal');
        printer.size(1,1);
-       for (var i = 0; i < 1000; i++) {
+       for (var i = 0; i < 500; i++) {
            if (Math.random(1) < 0.5) {
                printer.setReverseColors(true);
                printer.text(' ');
