@@ -8,7 +8,7 @@ var title; var output; var input;
 // Global format variables
 var bgColor = 'black'; 
 var fontColor = 'white'; 
-var fontSize = '20px'; 
+var fontSize = '25px'; 
 var paddingHorizontal = '50px'; 
 var paddingVertical = '80px';
 var fontFamily = 'Menlo-Regular'; 
