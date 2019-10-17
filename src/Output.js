@@ -34,11 +34,17 @@ class Output {
     }
 
     draw() {
+        var timer = 0; 
         for (var i = 0; i < this.rows; i++) {
             for (var j = 0; j < this.columns; j++) {
-                this.cells[i][j].draw();
+                var idx = 2*i + j; 
+                setTimeout(this.drawCell.bind(this), (timer + idx) * 10, this.cells[i][j]);
             }
         }
+    }
+
+    drawCell(cell) {
+        cell.draw(); 
     }
 
     initGrid() {
@@ -83,10 +89,13 @@ class Output {
 
         // Update and draw the cells that I want to update.
         var item = 0;  
+        var timer = 0;
         for (var i = startRow; i < this.rows; i++) {
             for (var j = 4; j <= this.columns-5; j++) {
                 this.cells[i][j].col = (binaryString[item] == 0) ? black : white; 
-                this.cells[i][j].draw(); 
+                var idx = 2*i + j; 
+                setTimeout(this.drawCell.bind(this), (timer + idx) * 10, this.cells[i][j]);
+                // this.cells[i][j].draw(); 
                 item++; 
                 if (item == binaryString.length) {
                     break; 
