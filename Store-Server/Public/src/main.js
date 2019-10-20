@@ -13,14 +13,24 @@ function setup(){
   table.width = displayWidth; // Change
   setupTableTitle(); 
 
-  socket = io(herokuURL, { reconnection: true }); 
+  socket = io(herokuURL, { 
+    reconnection: true,
+    reconnectionDelay: 500, 
+    reconnectionAttempts: Infinity 
+  }); 
+
   socket.on('showEntries', showEntries); 
+  socket.on('time_all', logTime); 
   socket.on('connect', onConnect); 
   socket.on('disconnect', onDisconnect);
 }
 
 function draw() {
 
+}
+
+function logTime(time) {
+  console.log('Socket Connection Alive: ' + time); 
 }
 
 function onClick() {

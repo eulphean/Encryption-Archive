@@ -44,7 +44,12 @@ function setup() {
   
   
   // Connect to the socket, subscribe to events. 
-  socket = io(herokuURL, { reconnection: true }); 
+  socket = io(herokuURL, { 
+    reconnection: true, 
+    reconnectionDelay: 500, 
+    reconnectionAttempts: Infinity
+  }); 
+  socket.on('time_all', logTime); 
   socket.on('connect', onConnect); 
   socket.on('disconnect', onDisconnect);
 }
@@ -53,6 +58,10 @@ function draw() {
   // put drawing code here
   output.draw(); 
   noLoop();
+}
+
+function logTime(time) {
+  console.log('Socket Connection Alive: ' + time); 
 }
 
 function onEncrypt(message) {

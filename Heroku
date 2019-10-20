@@ -36,4 +36,8 @@ psql -d localdb -U amaykataria
 See all the values in the table. Table name is 'entries'
 SELECT * FROM entries 
 
- 
+// See continuously flowing logs.
+heroku logs --tail
+
+// Open the web app that the node.js server is serving.
+heroku open

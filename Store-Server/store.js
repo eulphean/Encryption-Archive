@@ -23,22 +23,29 @@ app.use(express.static('Public'));
 
 // ------------------ Websocket ------------------------ //
 var io = socket(server); 
-var appSocket = io.of('/app').on('connection', onAppConnect); // Connects all web instance to this. 
-var receiptSocket = io.of('/receipt').on('connection', onServerConnect); // Connects receipt server to this. 
-var storeSocket = io.of('/store').on('connection', onStoreConnect); // Connects the web instance to read data. 
+var appSocket = io.of('/app').on('connection', onMainAppConnected); // Connects all web instance to this. 
+var receiptSocket = io.of('/receipt').on('connection', onReceiptClient); // Connects receipt server to this. 
+var storeSocket = io.of('/store').on('connection', onHerokuAppConnected); // Connects the web instance to read data. 
 
-function onAppConnect(socket) {
-    console.log('New App connection : ' + socket.id); 
+// Send an event to all connected clients to keep the Socket Connection Alive. 
+// This event is sent every 1 second to every client. 
+setInterval(() => io.emit('time_all', new Date().toTimeString()), 1000);
+
+function onMainAppConnected(socket) {
+    console.log('New Client App connection : ' + socket.id); 
     socket.on('writePayload', onPayload); 
+    socket.on('disconnect', () => console.log('App Client ' + socket.id + ' disconnected')); 
 }
 
-function onServerConnect(socket) {
-    console.log('New Server connection : ' + socket.id);
+function onReceiptClient(socket) {
+    console.log('Receipt Client Connected : ' + socket.id);
+    socket.on('disconnect', () => console.log('Receipt Client ' + socket.id + ' disconnected'));
 }
 
-function onStoreConnect(socket) {
-    console.log('New Store connection : ' + socket.id); 
+function onHerokuAppConnected(socket) {
+    console.log('New Heroku WebApp Connection : ' + socket.id); 
     socket.on('readEntries', onReadEntries); 
+    socket.on('diconnect', () => console.log('Heroku Client ' + socket.id + ' diconnected'));
 }
 
 function onReadEntries() {

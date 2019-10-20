@@ -2,7 +2,9 @@ var io = require('socket.io-client');
 var localhostURL = "http://localhost:5000/receipt"
 var herokuURL = "https://mysterious-shore-86207.herokuapp.com/receipt";
 var socket = io.connect(herokuURL, {
-    reconnection: true
+    reconnection: true, 
+    reconnectionDelay: 500, 
+    reconnectionAttempts: Infinity 
 });
 
 var escpos = require('escpos');
@@ -23,7 +25,12 @@ printer.flush();
 socket.on('connect', () => {
     console.log('Connected'); 
     socket.on('printPayload', onPayload);
+    socket.on('time_all', logTime); 
 })
+
+function logTime(time) {
+    console.log('Socket Connection Alive: ' + time); 
+}
 
 function onPayload (payload) {
     console.log('New Print Payload Received')
