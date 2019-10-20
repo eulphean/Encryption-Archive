@@ -14,13 +14,25 @@
         border: 1px solid black;
         table-layout: fixed;
         text-align: center;
-        margin-top: 80px;
+        margin-top: 20px;
         box-sizing: border-box;
         word-wrap: break-word
+      }
+
+      form {
+        margin: 20px
       }
     </style>
   </head>
   <body>
+    <form>
+        Start Date<br>
+        <input type="date" id="start" /><br><br>
+        End Date<br>
+        <input type="date" id="end"/><br><br>
+        <input type="button" value="Entries" onclick="onEntries()"/>
+        <span style="padding: left 5px"><input type="button" value="Download" /></span>
+    </form>
     <table id="entries"></table>
   </body>
 </html>

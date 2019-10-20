@@ -55,15 +55,32 @@ function onHerokuAppConnected(socket) {
     socket.on('disconnect', () => console.log('Heroku Client ' + socket.id + ' diconnected'));
 }
 
-function onReadEntries() {
-    console.log('Request to Read All Entries');
-    pool.query('SELECT * FROM entries', (err, results) => {
-        if (err) {
-            throw error; 
-        }
+function onReadEntries(bounds) {
+    console.log('Request to Read entries from ' + bounds.from + ' to ' + bounds.to);
+    
+    // Creating the query
+    var queryText = ''; 
+    if (bounds.from && bounds.to) {
+        queryText = 'SELECT * FROM entries WHERE date >= $1 AND date <= $2';
+        pool.query(queryText, [bounds.from, bounds.to], sqlQueryCallback); 
+    } else if (bounds.from && !bounds.to) {
+        queryText = 'SELECT * FROM entries WHERE date >= $1'; 
+        pool.query(queryText, [bounds.from], sqlQueryCallback); 
+    } else if (bounds.to && !bounds.from) {
+        queryText = 'SELECT * FROM entries WHERE date <= $1'; 
+        pool.query(queryText, [bounds.to], sqlQueryCallback); 
+    } else {
+        queryText = 'SELECT * FROM entries'; 
+        pool.query(queryText, sqlQueryCallback); 
+    }
+}
 
-        storeSocket.emit('showEntries', results.rows); 
-    });
+function sqlQueryCallback(error, results) {
+    if (error) {
+        throw error; 
+    }
+
+    storeSocket.emit('showEntries', results.rows); 
 }
 
 function onPayload(payload) {

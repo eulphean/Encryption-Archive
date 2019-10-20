@@ -1,8 +1,6 @@
 // Served through nodejs. It should show a table of all the entries that are 
 // created on the Encryption-Archive website. 
 var socket; 
-var entries; 
-var weave;
 var table;
 
 var localhostURL = "http://localhost:5000/store"
@@ -30,10 +28,14 @@ function logTime(time) {
   console.log('Socket Connection Alive: ' + time); 
 }
 
-function onClick() {
+function onEntries() {
   // Clear the table first. 
   clearTable(); 
-  socket.emit('readEntries');
+  var start = document.getElementById('start').value; 
+  var end = document.getElementById('end').value; 
+  console.log('Start: ' + start); console.log('End: ' + end); 
+  var bounds = { from: start, to: end }; 
+  socket.emit('readEntries', bounds);
 }
 
 function onConnected() {
@@ -80,8 +82,8 @@ function setupTableTitle() {
   var row = table.insertRow(0);
  
   var dateCell = row.insertCell(0);
-  dateCell.innerHTML = 'DATE';
-  dateCell.width = '8%';
+  dateCell.innerHTML = 'DATE (YYYY-MM-DD)';
+  dateCell.width = '10%';
 
   var timeCell = row.insertCell(1);
   timeCell.innerHTML = 'TIME';
@@ -94,13 +96,4 @@ function setupTableTitle() {
   var binaryCell = row.insertCell(3);
   binaryCell.innerHTML = 'BINARY STRING';
   binaryCell.width = '70%';
-
-  entries = createButton('ENTRIES');
-  entries.position(20, 10);
-  entries.size(100, 50); 
-  entries.mousePressed(onClick);
-
-  weave = createButton('WEAVE');
-  weave.position(140, 10);
-  weave.size(100, 50);
 }
