@@ -13,7 +13,7 @@ function setup(){
   table.width = displayWidth; // Change
   setupTableTitle(); 
 
-  socket = io(localhostURL, { reconnection: true }); 
+  socket = io(herokuURL, { reconnection: true }); 
   socket.on('showEntries', showEntries); 
   socket.on('connect', onConnect); 
   socket.on('disconnect', onDisconnect);
