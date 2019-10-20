@@ -29,7 +29,14 @@ var storeSocket = io.of('/store').on('connection', onHerokuAppConnected); // Con
 
 // Send an event to all connected clients to keep the Socket Connection Alive. 
 // This event is sent every 1 second to every client. 
-setInterval(() => io.emit('time_all', new Date().toTimeString()), 1000);
+setInterval(alive, 1000);
+
+function alive() {
+    var t = new Date().toTimeString(); 
+    appSocket.emit('time', t); 
+    receiptSocket.emit('time', t);
+    storeSocket.emit('time', t); 
+}
 
 function onMainAppConnected(socket) {
     console.log('New Client App connection : ' + socket.id); 
@@ -45,7 +52,7 @@ function onReceiptClient(socket) {
 function onHerokuAppConnected(socket) {
     console.log('New Heroku WebApp Connection : ' + socket.id); 
     socket.on('readEntries', onReadEntries); 
-    socket.on('diconnect', () => console.log('Heroku Client ' + socket.id + ' diconnected'));
+    socket.on('disconnect', () => console.log('Heroku Client ' + socket.id + ' diconnected'));
 }
 
 function onReadEntries() {

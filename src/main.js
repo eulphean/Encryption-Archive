@@ -44,14 +44,12 @@ function setup() {
   
   
   // Connect to the socket, subscribe to events. 
-  socket = io(herokuURL, { 
+  socket = io(localhostURL, { 
     reconnection: true, 
     reconnectionDelay: 500, 
     reconnectionAttempts: Infinity
   }); 
-  socket.on('time_all', logTime); 
-  socket.on('connect', onConnect); 
-  socket.on('disconnect', onDisconnect);
+  socket.on('connect', onConnected); 
 }
 
 function draw() {
@@ -89,19 +87,12 @@ function onEncrypt(message) {
 
     // Output set binary
     output.updateCells(binaryString); 
-
-    // Debug Messages coming from the Encrypter. 
-    // console.log('Message: ' + message); 
-    // console.log('Encrypted String: ' + charString); // Store this in the database
-    // console.log('Encrypted Binary: ' + binaryString); // Print this on the screen
 }
 
-function onConnect() {
-  console.log('Socket: Connected');
-}
-
-function onDisconnect() {
-  console.log('Socket: Disconnected. Closing socket.'); 
-  socket.close();
+function onConnected() {
+  console.log('Socket ' + socket.id + ' Connected');
+  // Subscribe to other events. 
+  socket.on('time', logTime); 
+  socket.on('disconnect', () =>  console.log('Socket Server Disconnected.'));
 }
 
