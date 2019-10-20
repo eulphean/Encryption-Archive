@@ -44,7 +44,7 @@ function setup() {
   
   
   // Connect to the socket, subscribe to events. 
-  socket = io(herokuURL, { reconnection: true }); 
+  socket = io(localhostURL, { reconnection: true }); 
   socket.on('connect', onConnect); 
   socket.on('disconnect', onDisconnect);
 }
@@ -67,13 +67,16 @@ function onEncrypt(message) {
     
     // Emit data for the database on node server. 
     var now = new Date(); 
-    var load = {
+    var payload = {
       key: key,
       binary: binaryString, 
-      date: now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate(),
+      date: now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate(),
       time: now.toLocaleTimeString()
     };
-    socket.emit('payload', load); 
+    
+    // Send this payload to commit to the database. 
+    console.log('Emitting Write Payload'); 
+    socket.emit('writePayload', payload); 
 
     // Output set binary
     output.updateCells(binaryString); 

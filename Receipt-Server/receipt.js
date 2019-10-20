@@ -22,10 +22,11 @@ printer.flush();
 
 socket.on('connect', () => {
     console.log('Connected'); 
-    socket.on('payload', onPayload);
+    socket.on('printPayload', onPayload);
 })
 
 function onPayload (payload) {
+    console.log('New Print Payload Received')
     var a = 'Key, Binary, Date, Time: '; 
     var b = payload['key'] + ', ' + payload['binary'] + ', ' + payload['date'] + ', ' + payload['time']; 
     console.log(a + b); 

@@ -4,8 +4,15 @@
 // Description: Server side implementation to store all the responses put on Encryption-Archive 
 
 var express = require('express'); 
-var fs = require('fs'); 
 var socket = require('socket.io');
+var Pool = require('pg').Pool; 
+
+// ------------------ postgresql database ---------------------- // 
+const connString = process.env['DATABASE_URL'];
+console.log('Database Connection String: ' + connString); 
+const pool = new Pool({
+    connectionString: connString
+}); 
 
 // ------------------ Express webserver ------------------------ //
 var app = express(); 
@@ -14,16 +21,15 @@ var server = app.listen(process.env.PORT || 5000, function() {
 });
 app.use(express.static('Public')); 
 
-
 // ------------------ Websocket ------------------------ //
 var io = socket(server); 
 var appSocket = io.of('/app').on('connection', onAppConnect); // Connects all web instance to this. 
 var receiptSocket = io.of('/receipt').on('connection', onServerConnect); // Connects receipt server to this. 
-var storeStocket = io.of('/store').on('connection', onStoreConnect); // Connects the web instance to read data. 
+var storeSocket = io.of('/store').on('connection', onStoreConnect); // Connects the web instance to read data. 
 
 function onAppConnect(socket) {
     console.log('New App connection : ' + socket.id); 
-    socket.on('payload', onPayload); 
+    socket.on('writePayload', onPayload); 
 }
 
 function onServerConnect(socket) {
@@ -32,40 +38,43 @@ function onServerConnect(socket) {
 
 function onStoreConnect(socket) {
     console.log('New Store connection : ' + socket.id); 
-    socket.on('read', onRead); 
+    socket.on('readEntries', onReadEntries); 
 }
 
-function onRead() {
-    console.log('Reading through the store');
-    // Read the file
-    fs.readFile(dbFile, 'utf-8', function(err, data) {
-        if (err) throw RTCRtpReceiver; 
-        var payload = JSON.parse(data); 
-        storeStocket.emit('payload', payload); 
+function onReadEntries() {
+    console.log('Request to Read All Entries');
+    pool.query('SELECT * FROM entries', (err, results) => {
+        if (err) {
+            throw error; 
+        }
+
+        storeSocket.emit('showEntries', results.rows); 
     });
 }
 
 function onPayload(payload) {
-    console.log('New Payload Received');
-
-    // Store this payload into the file
+    console.log('New Write Payload Received');
+    
+    // Store this payload into the file. 
     writePayload(payload); 
 
-    // Emit this data on the server socket. 
-    receiptSocket.emit('payload', payload); 
+    console.log('Emitting Print Payload');
+    // Emit this payload to be printed on the receipt printer. 
+    receiptSocket.emit('printPayload', payload); 
 }
 
-// ------------------ Database -------------------------- //
-const dbFile = './db.json'; 
 function writePayload(payload) {
-    // Write payload to dbFile. 
-    fs.readFile(dbFile, 'utf-8', function(err, data) {
-        if (err) throw err; 
-        var objects = JSON.parse(data); 
-        objects.entries.push(payload); 
-        fs.writeFile(dbFile, JSON.stringify(objects), 'utf-8', function(err) {
-            if (err) throw err;
-            console.log('Success: DB updated.'); 
-        }); 
+    const date = payload.date; 
+    const time = payload.time; 
+    const key = payload.key; 
+    const encrypted = payload.binary; 
+
+    // Write the payload to the database. 
+    pool.query('INSERT INTO entries (date, time, key, encrypted) VALUES ($1, $2, $3, $4)', [date, time, key, encrypted], (error, result) => {
+        if (error) {
+            throw error; 
+        }
+
+        console.log('Success: New entry in the databse with key ' + key); 
     }); 
 }

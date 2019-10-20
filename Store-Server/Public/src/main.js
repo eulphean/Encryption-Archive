@@ -10,11 +10,11 @@ var herokuURL = "https://mysterious-shore-86207.herokuapp.com/store";
 
 function setup(){
   table = document.getElementById('entries');
-  table.width = displayWidth; 
+  table.width = displayWidth; // Change
   setupTableTitle(); 
 
-  socket = io(herokuURL, { reconnection: true }); 
-  socket.on('payload', onPayload); 
+  socket = io(localhostURL, { reconnection: true }); 
+  socket.on('showEntries', showEntries); 
   socket.on('connect', onConnect); 
   socket.on('disconnect', onDisconnect);
 }
@@ -26,7 +26,7 @@ function draw() {
 function onClick() {
   // Clear the table first. 
   clearTable(); 
-  socket.emit('read');
+  socket.emit('readEntries');
 }
 
 function onConnect() {
@@ -38,16 +38,18 @@ function onDisconnect() {
   socket.close();
 }
 
-function onPayload(payload) {
-  console.log('New Payload');
-  // Take this payload and show it in the table
-  var entries = payload.entries; 
+function showEntries(entries) {
+  console.log('Received Entries from the Store');
 
+  // Take this payload and show it in the table
   for (var i in entries) {
     var row = table.insertRow(1); // Push on the top.  
     
     var dateCell = row.insertCell(0);
-    dateCell.innerHTML = entries[i].date; 
+    // NOTE: This splitting logic is necessary to account for the format
+    // in which date is retried from the SQL database. 
+    var d = entries[i].date.toString().split("T"); 
+    dateCell.innerHTML = d[0];
     
     var timeCell = row.insertCell(1); 
     timeCell.innerHTML = entries[i].time; 
@@ -56,7 +58,7 @@ function onPayload(payload) {
     keyCell.innerHTML =  entries[i].key; 
     
     var binaryCell = row.insertCell(3); 
-    binaryCell.innerHTML = entries[i].binary; 
+    binaryCell.innerHTML = entries[i].encrypted; 
   }
 }
 

@@ -1,0 +1,39 @@
+Heroku commands help document. This is critical to setup and remember Heroku related commands. The thing where Heroku files are hosted is called a dyno. It has an ephemeral memory, which means that it keeps recyling all the files at some unknown frequency. That's why it doesn't support any active file storage. In order to store entries typed into the Encryption Archive website, I have setup a SQL database provisioned by postgreSQL. 
+
+Maximum entries supported in the hobby dev plan is 10,000 entries. At any time the storage will get close to full, we can just change the plan and that will increase the capacity of the database. 
+
+Move to store-server folder to execute any heroku commands. 
+
+- Push new changes to the heroku branch (From Store-Server folder)
+git add . 
+git commit 
+git push heroku master
+
+Then go back to the room and push the change to the the main git repository
+
+- See the web url where the app can be accessed
+heroku apps:info
+
+- Connect to the heroku node
+heroku run bash
+---- let it connect ----
+'ls' to see the current directory structure
+
+Integrate heroku commands. 
+
+Really helpful Heroku tutorial. 
+https://blog.logrocket.com/setting-up-a-restful-api-with-node-js-and-postgresql-d96d6fc892d8/
+
+// LOCAL Database Access
+Database on the cloud is cloned as localdb for now locally.
+
+To test the SQL db locally, update the DATABASE_URL like this. 
+export DATABASE_URL=postgres://localhost/localdb
+
+To locally connect to the database:
+psql -d localdb -U amaykataria
+
+See all the values in the table. Table name is 'entries'
+SELECT * FROM entries 
+
+ 
