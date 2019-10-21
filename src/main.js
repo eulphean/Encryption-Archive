@@ -44,7 +44,7 @@ function setup() {
   
   
   // Connect to the socket, subscribe to events. 
-  socket = io(herokuURL, { 
+  socket = io(localhostURL, { 
     reconnection: true, 
     reconnectionDelay: 500, 
     reconnectionAttempts: Infinity
