@@ -3,9 +3,10 @@ var localhostURL = "http://localhost:5000/receipt"
 var herokuURL = "https://mysterious-shore-86207.herokuapp.com/receipt";
 
 // Constants
-var numBufferRows = 2; // It can be any number. 
+var numBufferRows = 5; // It can be any number. 
 var numBufferColums = 4; // It can be 2 or 4 only.
 var numColsInReceipt = 48; 
+var usableColums = numColsInReceipt - numBufferColums * 2; 
 
 var socket = io.connect(localhostURL, {
     reconnection: true, 
@@ -13,20 +14,20 @@ var socket = io.connect(localhostURL, {
     reconnectionAttempts: Infinity 
 });
 
-// var escpos = require('escpos');
-// // Setup device and printer with the baudrate. 
-// var device = new escpos.Serial('/dev/cu.Repleo-PL2303-00002014', {
-//     autoOpen: true,
-//     baudRate: 38400,
-// });
+var escpos = require('escpos');
+// Setup device and printer with the baudrate. 
+var device = new escpos.Serial('/dev/cu.Repleo-PL2303-00002014', {
+    autoOpen: true,
+    baudRate: 38400,
+});
 
-// const printer = new escpos.Printer(device);
+const printer = new escpos.Printer(device);
 // Clean Printer Routine (don't mess with this)
-// printer.feed(3);
+printer.feed(1);
 // printer.flush();
 // printer.flush();
-// printer.cut(0, 5);
-// printer.flush();
+printer.cut(0, 5);
+printer.flush();
 
 socket.on('connect', () => {
     console.log('Connected'); 
@@ -45,20 +46,25 @@ function onPayload (payload) {
     var key = payload['key']; 
     var encryptedMsg = payload['binary']; 
 
+    console.log('Old Encrypted Msg Length: ' + encryptedMsg.length); 
+
     // Modify encrypted message to fit it in receipt. 
     encryptedMsg = fitMessageInReceipt(encryptedMsg); 
 
+    console.log('New Encrypted Msg Length: ' + encryptedMsg.length); 
+
     // Printer commands to generate a receipt. 
-    // device.open(function() {
-    //    // Set basic styles. 
-    //    generateHeader(date, time, key); 
+    device.open(function() {
+       // Set basic styles. 
+       generateHeader(date, time, key); 
     //    printer.drawLine(); 
-    //    generateMiddle(encryptedMsg); 
+       printer.newLine(); 
+       generateMiddle(encryptedMsg);
     //    printer.drawLine(); 
-    //    generateFooter(); 
-    //    printer.cut(0, 5);
-    //    printer.flush();  
-    // });
+       generateFooter(); 
+       printer.cut(0, 5);
+       printer.flush();  
+    });
 }
 
 function generateHeader(date, time, key) {
@@ -99,22 +105,20 @@ function generateMiddle(encryptedMsg) {
     printer.newLine();
 
     // ------------- Message -------------- // 
-    printer.setReverseColors(false); 
     printer.spacing(0); 
     printer.lineSpace(0);
     printer.align('ct'); 
-    printer.size(1,1);
-    printMessage(encryptedMsg); 
-    // Print the actual message here. How will I printer the message
-    // Algorithm to print the actual message 
-    // Look at the main app to see the actual algorithm. 
-    printer.setReverseColors(false); 
+    printer.size(1, 0.5);
+    printMessage(encryptedMsg);
+    printer.setReverseColors(false);
+    printer.text(' '); 
 }
 
 function generateFooter() {
     printer.setReverseColors(true); 
-    printer.spacing(); 
-    printer.lineSpace(); 
+    printer.spacing(); // Reset to default.
+    printer.lineSpace(); // Reset to default.
+    printer.newLine(); 
     printer.font('a'); 
     printer.style('b'); 
     printer.size(1, 1); 
@@ -126,21 +130,70 @@ function printMessage(encryptedMsg) {
     //////////// Buffer //////////// x numBufferRows
     // Buffer // x numBufferColumns [Actual Message] // Buffer // x numBufferColumns (Message needs to be formatted in a specific format)
     //////////// Buffer //////////// x numBufferRows
-    
-    // Fit message in the receipt.
-    // Number of characters need to be a multiple of 42
 
+    // This keeps track of how many characters have been printed.
+    // It helps in generating the pattern we want. 
+    var idxTracker = 0; 
     // Top Buffer
-    drawBuffer(); 
-    // Message
-    drawBuffer(); 
-  
+    idxTracker = drawBuffer(idxTracker); 
+    
+    // In-between string. 
+    var encryptedCount = numColsInReceipt - 2*numBufferColums; 
+    var numRows = encryptedMsg.length / encryptedCount; 
+    console.log('Receipt Rows ' + numRows); 
+    var msgIdx = 0; 
+    for (var i = 0; i < numRows; i++) {
+        // Print start buffer
+        idxTracker = drawColumBuffer(idxTracker); // 4 chars
+        
+        // Print actual encrypted binary characters.  
+        for (var k = 0; k < usableColums; k++) { // 40 chars 
+            var c = encryptedMsg[msgIdx];
+            if (c==0) {
+                // 0 is black
+                printer.setReverseColors(true);
+            } else {
+                // 1 is white
+                printer.setReverseColors(false);
+            }
+            printer.print(' '); 
+            msgIdx++; 
+        }
+
+        // Print end buffer
+        idxTracker = drawColumBuffer(idxTracker);  // 4 chars
+
+        // Need to increment this to alternate the pattern for the 
+        // next line. 
+        idxTracker++; 
+    }
+
+    // Bottom Buffer
+    idxTracker = drawBuffer(idxTracker);
 }
 
-function drawBuffer() {
+function drawColumBuffer(idxTracker) {
+    for (var j = 0; j < numBufferColums; j++) {
+        if (idxTracker%2==0) {
+            // 0 is black
+            printer.setReverseColors(true);
+        } else {
+            // 1 is white
+            printer.setReverseColors(false);
+        }
+        printer.print(' '); 
+        idxTracker++; 
+    }
+
+    return idxTracker; 
+}
+
+// Same strategy that is used to create alternate pattern output on the Web app. 
+// See Output.js for that. 
+function drawBuffer(idxTracker) {
     for (var j = 0; j < numBufferRows; j++) {
         for (var i = 0; i < numColsInReceipt; i++) {
-            if (i%2) {
+            if (idxTracker%2 == 0) {
                 // 0 is black
                 printer.setReverseColors(true); 
             } else {
@@ -148,18 +201,25 @@ function drawBuffer() {
                 printer.setReverseColors(false);
             }
             printer.print(' '); 
+            idxTracker++; 
         }
+        idxTracker++; 
     }
+
+    // Keep track of this row index. 
+    return idxTracker; 
 }
 
 function fitMessageInReceipt(encryptedMsg) {
     var msgLength = encryptedMsg.length; 
-    var remainder = msgLength % (numColsInReceipt - numBufferColums * 2);
-    var lastChar = encryptedMsg[msgLength - 1]; 
-
+    var numsRowsNeeded = Math.ceil(msgLength / usableColums);
+    var cellsToFill = (usableColums * numsRowsNeeded) - msgLength
+   
     // Modify encrypted message and append last char x remainder times. 
-    for (var i = 0; i < remainder; i++) {
-        encryptedMsg += lastChar; 
+    var newChar = encryptedMsg[msgLength - 1] == 1 ? 0 : 1; 
+    for (var i = 0; i < cellsToFill; i++) {
+        encryptedMsg += newChar; 
+        newChar = (newChar + 1) % 2; 
     }
 
     return encryptedMsg; 
