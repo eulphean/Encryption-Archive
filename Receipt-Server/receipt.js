@@ -8,7 +8,7 @@ var numBufferColums = 4; // It can be 2 or 4 only.
 var numColsInReceipt = 48; 
 var usableColums = numColsInReceipt - numBufferColums * 2; 
 
-var socket = io.connect(localhostURL, {
+var socket = io.connect(herokuURL, {
     reconnection: true, 
     reconnectionDelay: 500, 
     reconnectionAttempts: Infinity 
