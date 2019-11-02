@@ -5,3 +5,44 @@
     font-weight: normal;
     src: local('Menlo Regular'), url('Font/Menlo-Regular.woff') format('woff');
 }
+
+:root {
+    --fontSizeDesktop : 25px; 
+    --fontColor: white; 
+    --fontFamily: 'Menlo-Regular';
+    --paddingHorizontal: 50px; 
+    --paddingVertical: 80px;
+    --bgColor: black; 
+}
+
+a {
+    color: yellow;
+}
+
+/* Title Styles */
+#top {
+    display: flex; 
+    flex-direction: row;
+    background-color: black; 
+    font-size: var(--fontSizeDesktop);
+    color: var(--fontColor);
+    font-family: var(--fontFamily);
+    box-sizing: border-box; 
+    width: 100%;
+    height: 10%;
+    position: absolute;
+}
+
+.title {
+    width: 75%; 
+    display: flex; 
+    align-items: center; 
+    margin-left: var(--paddingHorizontal);
+}
+
+.aboutCollection {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: %;
+} */

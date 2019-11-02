@@ -36,8 +36,8 @@ function setup() {
 
   // Total 12h units of height. 
   title = new Title(h); // 1h unit high
-  output = new Output(h, h * 8); // 8h units high
-  input = new Input(h * 9, h * 3, onEncrypt); // 3h unit high
+  //output = new Output(h, h * 8); // 8h units high
+  //input = new Input(h * 9, h * 3, onEncrypt); // 3h unit high
 
   // Initialize Encryption engine. 
   encrypter = new Encrypter();
@@ -54,7 +54,7 @@ function setup() {
 
 function draw() {
   // put drawing code here
-  output.draw(); 
+  //output.draw(); 
   noLoop();
 }
 
