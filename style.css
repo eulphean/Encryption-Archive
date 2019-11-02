@@ -13,6 +13,8 @@
     --paddingHorizontal: 50px; 
     --paddingVertical: 80px;
     --bgColor: black; 
+    --topHeight: 10vh; 
+    --outputHeight: 80vh; 
 }
 
 a {
@@ -29,7 +31,7 @@ a {
     font-family: var(--fontFamily);
     box-sizing: border-box; 
     width: 100%;
-    height: 10%;
+    height: var(--topHeight);
     position: absolute;
 }
 
@@ -44,5 +46,11 @@ a {
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    width: %;
-} */
+    width: 25%;
+}
+
+/* Output styles */
+#middle {
+    position: absolute; 
+    top: var(--topHeight);
+}

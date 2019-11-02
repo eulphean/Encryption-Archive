@@ -20,8 +20,10 @@ class Cell {
 }
 class Output {
     constructor(yPos, height) {
-        this.canvas = createCanvas(displayWidth, height);
-        this.canvas.position(0, yPos);  
+        // Setup canvas.
+        this.canvas = createCanvas(displayWidth, 0.8 * displayHeight);
+        var middle = select('#middle');
+        this.canvas.parent(middle);
 
         this.cells = []; 
         this.columns = width/cellSize; 

@@ -13,6 +13,9 @@ var paddingHorizontal = '50px';
 var paddingVertical = '80px';
 var fontFamily = 'Menlo-Regular'; 
 var defaultPrivateKeyLabel = 'Private Key | '; 
+// 80% of the height is always the canvas
+// Note: Any change here must be reflected in CSS (root) as well. 
+var canvasHeightFactor = 0.8; 
 
 // Encryption bed variables
 var cellSize = 10; 
@@ -36,7 +39,7 @@ function setup() {
 
   // Total 12h units of height. 
   title = new Title(h); // 1h unit high
-  //output = new Output(h, h * 8); // 8h units high
+  output = new Output(h, h * 8); // 8h units high
   //input = new Input(h * 9, h * 3, onEncrypt); // 3h unit high
 
   // Initialize Encryption engine. 
@@ -54,7 +57,7 @@ function setup() {
 
 function draw() {
   // put drawing code here
-  //output.draw(); 
+  output.draw(); 
   noLoop();
 }
 
