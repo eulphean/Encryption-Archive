@@ -5,6 +5,8 @@ var table;
 
 var localhostURL = "http://localhost:5000/store"
 var herokuURL = "https://mysterious-shore-86207.herokuapp.com/store";
+var newOne = '1101';
+var newZero = '0010'; 
 
 function setup(){
   table = document.getElementById('entries');
@@ -64,17 +66,6 @@ function onConnected() {
   socket.on('disconnect', () => console.log('Socket Server Disconnected')); 
 }
 
-function downloadEntries(entries) {
-  // Then modify all the entries and store it into a new local array
-  // Then create an image using this data (look at python code for original image dimensions)
-  
-  // Show these entries.
-  showEntries(entries);
-
-  // Also, download them as an image. 
-  console.log('Download these entries ' + entries); 
-}
-
 function showEntries(entries) {
   console.log('Received Entries from the Store');
 
@@ -98,6 +89,27 @@ function showEntries(entries) {
     binaryCell.innerHTML = entries[i].encrypted; 
   }
 }
+
+function downloadEntries(entries) {
+  // Then modify all the entries and store it into a new local array
+  // Then create an image using this data (look at python code for original image dimensions)
+  
+  // Show these entries.
+  showEntries(entries);
+
+  // Expand these messages based on the scheme Dylan gave me.
+  var expandedMessages = []; 
+  for (var i in entries) {
+    var newMsg = getExpandedMessage(entries[i].encrypted); 
+    expandedMessages.push(newMsg); 
+  }
+
+  // Create an image (buffer up/buffer down with a specific dimension)
+  // Take these strings (complete them to the end for the width)
+  // Append them into the image
+  // Download the image. 
+}
+
 
 function clearTable() {
   var rowCount = table.rows.length;
@@ -124,4 +136,16 @@ function setupTableTitle() {
   var binaryCell = row.insertCell(3);
   binaryCell.innerHTML = 'BINARY STRING';
   binaryCell.width = '70%';
+}
+
+function getExpandedMessage(message) {
+  var newMsg = ''; 
+  for (var i = 0; i < message.length; i++) {
+    if (message[i] === '0') {
+      newMsg = newMsg + newZero;
+    } else if (message[i] === '1') {
+      newMsg = newMsg + newOne; 
+    }
+  }
+  return newMsg; 
 }
