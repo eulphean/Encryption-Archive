@@ -11,7 +11,7 @@ function setup(){
   table.width = displayWidth; // Change
   setupTableTitle(); 
 
-  socket = io(herokuURL, { 
+  socket = io(localhostURL, { 
     reconnection: true,
     reconnectionDelay: 500, 
     reconnectionAttempts: Infinity 
@@ -31,11 +31,27 @@ function logTime(time) {
 function onEntries() {
   // Clear the table first. 
   clearTable(); 
+  var bounds = getBounds('show'); 
+  socket.emit('readEntries', bounds);
+}
+
+function onDownload() {
+  // Get all the entries from the database. 
+  clearTable();
+  var bounds = getBounds('download'); 
+  socket.emit('readEntries', bounds);
+}
+
+function getBounds(s) {
   var start = document.getElementById('start').value; 
   var end = document.getElementById('end').value; 
   console.log('Start: ' + start); console.log('End: ' + end); 
-  var bounds = { from: start, to: end }; 
-  socket.emit('readEntries', bounds);
+  var bounds = { 
+    from: start, 
+    to: end,
+    state: s // Determines what kind of callback to fire from the store. 
+  }; 
+  return bounds; 
 }
 
 function onConnected() {
@@ -43,8 +59,20 @@ function onConnected() {
 
   // Subsribe to other events. 
   socket.on('showEntries', showEntries); 
+  socket.on('downloadEntries', downloadEntries)
   socket.on('time', logTime); 
   socket.on('disconnect', () => console.log('Socket Server Disconnected')); 
+}
+
+function downloadEntries(entries) {
+  // Then modify all the entries and store it into a new local array
+  // Then create an image using this data (look at python code for original image dimensions)
+  
+  // Show these entries.
+  showEntries(entries);
+
+  // Also, download them as an image. 
+  console.log('Download these entries ' + entries); 
 }
 
 function showEntries(entries) {

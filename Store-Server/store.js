@@ -57,6 +57,14 @@ function onHerokuAppConnected(socket) {
 
 function onReadEntries(bounds) {
     console.log('Request to Read entries from ' + bounds.from + ' to ' + bounds.to);
+
+    // Chose the callback to send the results back. 
+    var sqlQueryCallback;
+    if (bounds.state == 'show') {
+        sqlQueryCallback = showEntriesCallback;
+    } else if (bounds.state == 'download') {
+        sqlQueryCallback = downloadEntriesCallback; 
+    }
     
     // Creating the query
     var queryText = ''; 
@@ -75,12 +83,20 @@ function onReadEntries(bounds) {
     }
 }
 
-function sqlQueryCallback(error, results) {
+function showEntriesCallback(error, results) {
     if (error) {
         throw error; 
     }
 
     storeSocket.emit('showEntries', results.rows); 
+}
+
+function downloadEntriesCallback(error, results) {
+    if (error) {
+        throw error; 
+    }
+
+    storeSocket.emit('downloadEntries', results.rows); 
 }
 
 function onPayload(payload) {
