@@ -35,6 +35,13 @@ body {
     overflow: hidden;
 }
 
+a {
+    animation-name: example;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
 a:hover {
     color: red;
 }
@@ -65,10 +72,6 @@ a:hover {
     justify-content: flex-end; 
     width: 25%;
     box-sizing: border-box;
-    animation-name: example;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
 }
 
 @keyframes example {

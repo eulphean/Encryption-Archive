@@ -4,18 +4,7 @@
 //[ Private Key | Key                                    Date | Time ]
 //[ Text Input                                              Button   ]
 var title; var output; var input;
-
-// Global format variables
-var bgColor = 'black'; 
-var fontColor = 'white'; 
-var fontSize = '25px'; 
-var paddingHorizontal = '50px'; 
-var paddingVertical = '80px';
-var fontFamily = 'Menlo-Regular'; 
-var defaultPrivateKeyLabel = 'Private Key | '; 
-// 80% of the height is always the canvas
-// Note: Any change here must be reflected in CSS (root) as well. 
-var canvasHeightFactor = 0.65; 
+var modal; 
 
 // Encryption bed variables
 var cellSize = 9; 
@@ -33,6 +22,8 @@ var herokuURL = "https://mysterious-shore-86207.herokuapp.com/app";
 
 function setup() {
   var h = displayHeight/12; 
+
+  initModal();
 
   // Colors
   white = color(255, 255, 255); black = color(0, 0, 0);
@@ -98,3 +89,27 @@ function onConnected() {
   socket.on('disconnect', () =>  console.log('Socket Server Disconnected.'));
 }
 
+function showModal() {
+  modal.open();
+}
+
+function initModal() {
+  // New modal. 
+  modal = new tingle.modal({
+      footer: true,
+      stickyFooter: true,
+      cssClass: ['custom-class-1']
+  });
+
+  /// Append dom elements that I want to show. 
+  // var tz = document.getElementsByClassName('tooltipTz')[0].outerHTML; 
+  // var clock = document.getElementsByClassName('tooltipClock')[0].outerHTML; 
+  // var caption = document.getElementsByClassName('tooltipCaption')[0].outerHTML; 
+  modal.setContent('<div>Static Description Text about the project from Dylan</div');
+
+  // // add a button
+  modal.addFooterBtn('OK', 'tingle-btn tingle-btn--primary', ()=> {
+      // here goes some logic
+      modal.close();
+  });
+}
