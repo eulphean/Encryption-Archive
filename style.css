@@ -10,7 +10,7 @@
     --fontSizeMobile : 15px; 
     --fontColor: white; 
     --fontFamily: 'Menlo-Regular';
-    --paddingHorizontal: 20px; 
+    --paddingHorizontal: 50px; 
     --paddingVertical: 80px;
     --bgColor: black; 
     --topHeight: 6vh; 
@@ -47,19 +47,19 @@ a:hover {
     box-sizing: border-box; 
     width: 100vw;
     height: var(--topHeight);
+    padding: 0 var(--paddingHorizontal) 0 var(--paddingHorizontal);
 }
 
 .title {
     width: 75%; 
     display: flex; 
     align-items: center; 
-    padding-left: var(--paddingHorizontal);
 }
 
 .aboutCollection {
     display: flex; 
     align-items: center; 
-    justify-content: center; 
+    justify-content: flex-end; 
     width: 25%;
     box-sizing: border-box;
 }
@@ -88,7 +88,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left:var(--paddingHorizontal);
+    padding: 0 var(--paddingHorizontal) 0 var(--paddingHorizontal);
     height: 5vh;
     color: white;
     box-sizing: border-box;
@@ -100,6 +100,7 @@ a:hover {
 }
 
 #datetimecontainer {
+    text-align: right;
     width: 25%;
 }
 
@@ -131,6 +132,43 @@ textarea::placeholder {
 
 .bar {
     visibility : visible;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .title {
+        width: 50%;
+    }
+
+    .aboutCollection {
+        width: 50%; 
+    }
+
+    #keycontainer {
+        width: 60%; 
+    }
+    
+    #datetimecontainer {
+        width: 40%;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .title {
+        width: 50%;
+    }
+
+    .aboutCollection {
+        width: 50%; 
+    }
+
+    #keycontainer {
+        width: 60%; 
+    }
+    
+    #datetimecontainer {
+        width: 40%;
+    }
 }
 
 @media only screen and (max-width: 414px) {
