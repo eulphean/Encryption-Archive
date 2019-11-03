@@ -15,10 +15,10 @@ var fontFamily = 'Menlo-Regular';
 var defaultPrivateKeyLabel = 'Private Key | '; 
 // 80% of the height is always the canvas
 // Note: Any change here must be reflected in CSS (root) as well. 
-var canvasHeightFactor = 0.8; 
+var canvasHeightFactor = 0.65; 
 
 // Encryption bed variables
-var cellSize = 10; 
+var cellSize = 9; 
 var white; 
 var black; 
 
@@ -38,16 +38,15 @@ function setup() {
   white = color(255, 255, 255); black = color(0, 0, 0);
 
   // Total 12h units of height. 
-  title = new Title(h); // 1h unit high
-  output = new Output(h, h * 8); // 8h units high
-  //input = new Input(h * 9, h * 3, onEncrypt); // 3h unit high
+  title = new Title(); // 1h unit high
+  output = new Output(); // 8h units high
+  input = new Input(onEncrypt); // 3h unit high
 
   // Initialize Encryption engine. 
   encrypter = new Encrypter();
   
-  
   // Connect to the socket, subscribe to events. 
-  socket = io(herokuURL, { 
+  socket = io(localhostURL, { 
     reconnection: true, 
     reconnectionDelay: 500, 
     reconnectionAttempts: Infinity

@@ -19,10 +19,10 @@ class Cell {
     }
 }
 class Output {
-    constructor(yPos, height) {
+    constructor() {
         // Setup canvas.
-        this.canvas = createCanvas(displayWidth, 0.8 * displayHeight);
         var middle = select('#middle');
+        this.canvas = createCanvas(displayWidth, middle.height);
         this.canvas.parent(middle);
 
         this.cells = []; 
@@ -51,6 +51,7 @@ class Output {
 
     initGrid() {
         var idx = 0; 
+        console.log('Rows: ' + this.rows + 'Columns: ' + this.columns); 
         for (var i = 0; i < this.rows; i++) {
             this.cells[i] = []; // 2D array assign.
             for (var j = 0; j < this.columns; j++) {

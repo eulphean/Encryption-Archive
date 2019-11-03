@@ -5,19 +5,34 @@
     font-weight: normal;
     src: local('Menlo Regular'), url('Font/Menlo-Regular.woff') format('woff');
 }
-
 :root {
     --fontSizeDesktop : 25px; 
+    --fontSizeMobile : 15px; 
     --fontColor: white; 
     --fontFamily: 'Menlo-Regular';
-    --paddingHorizontal: 50px; 
+    --paddingHorizontal: 20px; 
     --paddingVertical: 80px;
     --bgColor: black; 
-    --topHeight: 10vh; 
-    --outputHeight: 80vh; 
+    --topHeight: 6vh; 
+    /* Any changes here must be changed in main.js canvasHeightFactor as well. */
+    --outputHeight: 65vh; 
+    --bottomPosition: 75vh; 
 }
 
-a {
+body {
+    margin: 0;
+    padding: 0;
+    background-color:black;
+    box-sizing: border-box;
+    font-size: var(--fontSizeDesktop);
+    overflow: hidden;
+}
+
+.container {
+    overflow: hidden;
+}
+
+a:hover {
     color: yellow;
 }
 
@@ -26,20 +41,19 @@ a {
     display: flex; 
     flex-direction: row;
     background-color: black; 
-    font-size: var(--fontSizeDesktop);
+    font-size: inherit;
     color: var(--fontColor);
     font-family: var(--fontFamily);
     box-sizing: border-box; 
-    width: 100%;
+    width: 100vw;
     height: var(--topHeight);
-    position: absolute;
 }
 
 .title {
     width: 75%; 
     display: flex; 
     align-items: center; 
-    margin-left: var(--paddingHorizontal);
+    padding-left: var(--paddingHorizontal);
 }
 
 .aboutCollection {
@@ -47,10 +61,110 @@ a {
     align-items: center; 
     justify-content: center; 
     width: 25%;
+    box-sizing: border-box;
 }
 
 /* Output styles */
 #middle {
+    top: 10vh;
+    height: 74vh; 
+    background-color:white;
+    box-sizing: border-box;
+}
+
+/* Bottom styles. */
+#bottom {
     position: absolute; 
-    top: var(--topHeight);
+    top: 80vh;
+    width: 100%; 
+    height: 20vh;
+    font-family: 'Menlo-Regular';
+    font-size: inherit;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+#infocontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left:var(--paddingHorizontal);
+    height: 5vh;
+    color: white;
+    box-sizing: border-box;
+}
+
+#keycontainer {
+    width: 75%; 
+    font-size: inherit;
+}
+
+#datetimecontainer {
+    width: 25%;
+}
+
+#inputcontainer {
+    width: 100%; 
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    height: 15vh;
+}
+
+.textinput {
+    width: 75%; 
+    font-size: inherit;
+    font-family: inherit;
+    padding: var(--paddingHorizontal);
+}
+
+.inputbutton {
+    width: 25%;
+    font-size: inherit;
+    font-family: inherit;
+    background-image: linear-gradient(141deg, #CCFFFF 0%, #1fc8db 60%, #2cb5e8 90%);
+}
+
+textarea::placeholder {
+    text-align: left; 
+}
+
+.bar {
+    visibility : visible;
+}
+
+@media only screen and (max-width: 414px) {
+    body {
+        font-size: var(--fontSizeMobile);
+    }
+
+    .title {
+        width: 50%;
+    }
+
+    .aboutCollection {
+        width: 50%; 
+    }
+
+    #infocontainer {
+        height: 8vh;
+    }
+
+    #inputcontainer {
+        height: 12vh;
+    }
+
+    .bar {
+        visibility: hidden;
+    }
+
+    #keycontainer {
+        width: 60%; 
+        display: flex;
+        align-items: center;
+    }
+    
+    #datetimecontainer {
+        width: 40%;
+    }
 }

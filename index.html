@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encryption Archive</title>
     <link rel="stylesheet" type="text/css" href="style.css"/> 
-    <style> body {padding: 0; margin: 0;} </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
     <script type="text/javascript" src="Library/p5.min.js"></script>
     <script type="text/javascript" src="Library/p5.dom.min.js"></script>
@@ -26,22 +25,19 @@
           </div>
         </div>
         <div id=middle>
-          <!-- Canvas is placed here -->
         </div>
         <div id=bottom>
           <div id=infocontainer>
             <div id=keycontainer>
-              <div class=heading></div>
-              <div class=key></div>
+              <div>Private Key<span class=bar> | </span><span class=key></span></div>
             </div>
             <div id=datetimecontainer>
-              <div class=date></div>
-              <div class=time></div>
+              <div><span class=date></span><span class=bar> | </span><span class=time> </span></div>
             </div>
           </div>
           <div id=inputcontainer>
-            <div class=textarea></div>
-            <div class=inputbutton></div>
+            <textarea class=textinput placeholder='Type Something...'></textarea>
+            <button class=inputbutton>ENCRYPT</button>
           </div>
         </div>
       </div>
