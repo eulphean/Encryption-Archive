@@ -91,7 +91,7 @@
 
 .tingle-modal--visible {
   visibility: visible;
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .tingle-modal--visible .tingle-modal-box {
