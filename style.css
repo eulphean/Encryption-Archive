@@ -200,6 +200,11 @@ textarea::placeholder {
         display: none;
     }
 
+    .datetime {
+        display: flex;
+        flex-direction: column;
+    }
+
     #keycontainer {
         width: 60%; 
         display: flex;
