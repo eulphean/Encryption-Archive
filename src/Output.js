@@ -22,7 +22,7 @@ class Output {
     constructor() {
         // Setup canvas.
         var middle = select('#middle');
-        this.canvas = createCanvas(displayWidth, middle.height);
+        this.canvas = createCanvas(window.innerWidth, middle.height);
         this.canvas.parent(middle);
 
         this.cells = []; 

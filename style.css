@@ -10,6 +10,7 @@
     --fontSizeDesktop : 25px; 
     --fontSizeMobile : 15px; 
     --fontSizeMobileTiny : 13px; 
+    --fontSizeIpad: 20px; 
     --fontColor: white; 
     --fontFamily: 'Menlo-Regular';
     --paddingHorizontal: 50px; 
@@ -22,13 +23,14 @@
     --bottomPosition: 75vh; 
 }
 
-body {
+body, html {
     margin: 0;
     padding: 0;
     background-color:black;
     box-sizing: border-box;
     font-size: var(--fontSizeDesktop);
-    overflow: hidden;
+    width: 100%;
+    height: 100%; 
 }
 
 .container {
@@ -164,6 +166,10 @@ textarea::placeholder {
 @media only screen and (max-width: 1024px) {
     .title {
         width: 50%;
+    }
+
+    body {
+        font-size: var(--fontSizeIpad);
     }
 
     .aboutCollection {
