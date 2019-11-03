@@ -4,8 +4,6 @@ class Input {
     constructor(onEncrypt) {
         // Private key
         this.key = select('.key'); 
-        console.log(this.key);
-
         // Date / Time
         this.date = select('.date');
         this.time = select('.time');
@@ -28,8 +26,9 @@ class Input {
         var date = now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate();
         var time = now.toLocaleTimeString();
         // time = time[0] + time[1];
-        this.date.html(date); 
+        this.date.html(date);
         this.time.html(time); 
+
     }
 
     setPrivateKey(key) {
@@ -52,7 +51,7 @@ class Input {
         var inputText = this.textInput.value(); 
         if (inputText.length > 0) {
             this.enableButton(); 
-            // this.key.html('');
+            this.key.html('');
         } else {
             this.disableButton();
         }
@@ -61,11 +60,13 @@ class Input {
     disableButton() {
         this.encrypt.style('font-color', '#cfcfcf');
         this.encrypt.attribute('disabled', true); 
+        this.encrypt.removeClass('animate');
     }
 
     enableButton() {
         // Enable color
         this.encrypt.style('font-color', fontColor);
         this.encrypt.removeAttribute('disabled'); 
+        this.encrypt.addClass('animate');
     }
 }

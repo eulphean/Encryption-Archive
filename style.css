@@ -5,6 +5,7 @@
     font-weight: normal;
     src: local('Menlo Regular'), url('Font/Menlo-Regular.woff') format('woff');
 }
+
 :root {
     --fontSizeDesktop : 25px; 
     --fontSizeMobile : 15px; 
@@ -12,7 +13,7 @@
     --fontColor: white; 
     --fontFamily: 'Menlo-Regular';
     --paddingHorizontal: 50px; 
-    --paddingHorizontalMobile: 25px; 
+    --paddingHorizontalMobile: 23px; 
     --paddingVertical: 80px;
     --bgColor: black; 
     --topHeight: 6vh; 
@@ -35,7 +36,7 @@ body {
 }
 
 a:hover {
-    color: yellow;
+    color: red;
 }
 
 /* Title Styles */
@@ -64,7 +65,17 @@ a:hover {
     justify-content: flex-end; 
     width: 25%;
     box-sizing: border-box;
+    animation-name: example;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
+
+@keyframes example {
+    from {color: white;}
+    to {color: yellow;}
+}
+
 
 /* Output styles */
 #middle {
@@ -97,13 +108,17 @@ a:hover {
 }
 
 #keycontainer {
-    width: 75%; 
+    width: 70%; 
     font-size: inherit;
 }
 
 #datetimecontainer {
     text-align: right;
-    width: 25%;
+    width: 30%;
+    /* display: flex;
+    flex-direction: row; 
+    justify-content: flex-end; */
+    /* justify-content: space-around; */
 }
 
 #inputcontainer {
@@ -125,7 +140,18 @@ a:hover {
     width: 25%;
     font-size: inherit;
     font-family: inherit;
-    background-image: linear-gradient(141deg, #CCFFFF 0%, #1fc8db 60%, #2cb5e8 90%);
+    color: white;
+    border-color: black;
+    background-image: linear-gradient(to bottom right, black , lightgray);
+    transition: transform 3s ease-in-out 0s;
+}
+
+.animate {
+    transform: rotate(360deg);
+}
+
+.inputbutton:disabled {
+    color: gray;
 }
 
 textarea::placeholder {
@@ -133,7 +159,7 @@ textarea::placeholder {
 }
 
 .bar {
-    visibility : visible;
+    display : inline;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -172,7 +198,7 @@ textarea::placeholder {
     }
 
     .bar {
-        visibility: hidden;
+        display: none;
     }
 
     #keycontainer {
@@ -183,6 +209,8 @@ textarea::placeholder {
     
     #datetimecontainer {
         width: 40%;
+        display: flex;
+        flex-direction: column;
     }
 }
 
@@ -213,7 +241,7 @@ textarea::placeholder {
     }
 
     .bar {
-        visibility: hidden;
+        display: none;
     }
 
     #keycontainer {
