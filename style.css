@@ -8,9 +8,11 @@
 :root {
     --fontSizeDesktop : 25px; 
     --fontSizeMobile : 15px; 
+    --fontSizeMobileTiny : 13px; 
     --fontColor: white; 
     --fontFamily: 'Menlo-Regular';
     --paddingHorizontal: 50px; 
+    --paddingHorizontalMobile: 25px; 
     --paddingVertical: 80px;
     --bgColor: black; 
     --topHeight: 6vh; 
@@ -134,7 +136,6 @@ textarea::placeholder {
     visibility : visible;
 }
 
-
 @media only screen and (max-width: 1024px) {
     .title {
         width: 50%;
@@ -153,29 +154,7 @@ textarea::placeholder {
     }
 }
 
-@media only screen and (max-width: 1024px) {
-    .title {
-        width: 50%;
-    }
-
-    .aboutCollection {
-        width: 50%; 
-    }
-
-    #keycontainer {
-        width: 60%; 
-    }
-    
-    #datetimecontainer {
-        width: 40%;
-    }
-}
-
-@media only screen and (max-width: 414px) {
-    body {
-        font-size: var(--fontSizeMobile);
-    }
-
+@media only screen and (max-width: 768px) {
     .title {
         width: 50%;
     }
@@ -204,5 +183,56 @@ textarea::placeholder {
     
     #datetimecontainer {
         width: 40%;
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    body {
+        font-size: var(--fontSizeMobile);
+    }
+
+    #top {
+        padding: 0 var(--paddingHorizontalMobile) 0 var(--paddingHorizontalMobile);
+    }
+
+    .title {
+        width: 45%;
+    }
+
+    .aboutCollection {
+        width: 55%; 
+    }
+
+    #infocontainer {
+        height: 8vh;
+        padding: 0 var(--paddingHorizontalMobile) 0 var(--paddingHorizontalMobile);
+    }
+
+    #inputcontainer {
+        height: 12vh;
+    }
+
+    .bar {
+        visibility: hidden;
+    }
+
+    #keycontainer {
+        width: 60%; 
+        display: flex;
+        align-items: center;
+    }
+    
+    #datetimecontainer {
+        width: 40%;
+    }
+
+    .textinput {
+        padding: var(--paddingHorizontalMobile);
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    body {
+        font-size: var(--fontSizeMobileTiny);
     }
 }
