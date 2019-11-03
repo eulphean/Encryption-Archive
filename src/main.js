@@ -37,7 +37,7 @@ function setup() {
   encrypter = new Encrypter();
   
   // Connect to the socket, subscribe to events. 
-  socket = io(localhostURL, { 
+  socket = io(herokuURL, { 
     reconnection: true, 
     reconnectionDelay: 500, 
     reconnectionAttempts: Infinity
