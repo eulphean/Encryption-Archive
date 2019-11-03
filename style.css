@@ -139,7 +139,7 @@ a:hover {
     width: 25%;
     font-size: inherit;
     font-family: inherit;
-    color: white;
+    /* color: white; */
     border-color: black;
     background-image: linear-gradient(to bottom right, black , lightgray);
     transition: transform 3s ease-in-out 0s;

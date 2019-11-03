@@ -97,8 +97,7 @@ function initModal() {
   // New modal. 
   modal = new tingle.modal({
       footer: true,
-      stickyFooter: true,
-      cssClass: ['custom-class-1']
+      stickyFooter: true
   });
 
   /// Append dom elements that I want to show. 

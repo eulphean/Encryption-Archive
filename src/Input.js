@@ -15,7 +15,7 @@ class Input {
         this.textInput.input(this.onInput.bind(this)); 
 
         // Encryption button.
-        this.encrypt = select('button'); 
+        this.encrypt = select('.inputbutton'); 
         this.encrypt.mousePressed(this.onClick.bind(this, onEncrypt)); 
         this.disableButton(); 
     }
@@ -28,7 +28,6 @@ class Input {
         // time = time[0] + time[1];
         this.date.html(date);
         this.time.html(time); 
-
     }
 
     setPrivateKey(key) {
@@ -58,14 +57,14 @@ class Input {
     }
 
     disableButton() {
-        this.encrypt.style('font-color', '#cfcfcf');
+        this.encrypt.style('color', '#cfcfcf');
         this.encrypt.attribute('disabled', true); 
         this.encrypt.removeClass('animate');
     }
 
     enableButton() {
         // Enable color
-        this.encrypt.style('font-color', fontColor);
+        this.encrypt.style('color', 'white');
         this.encrypt.removeAttribute('disabled'); 
         this.encrypt.addClass('animate');
     }
