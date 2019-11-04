@@ -112,8 +112,7 @@ function downloadEntriesCallback(error, results) {
     }
 
     // Create an image with all these processed images. 
-    imgBuilder.createImage(processedMessages, otherParams); 
-
+    imgBuilder.createImage(processedMessages, otherParams, onImage); 
     storeSocket.emit('showEntries', results.rows); 
 }
 
@@ -142,4 +141,9 @@ function writePayload(payload) {
 
         console.log('Success: New entry in the databse with key ' + key); 
     }); 
+}
+
+// Callback passed to receive base64 encoded image data. 
+function onImage(base64Data) {
+    storeSocket.emit('imageData', base64Data);
 }

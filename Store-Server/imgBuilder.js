@@ -1,4 +1,6 @@
 var Jimp = require('jimp'); 
+const fs = require('fs');
+const response = require('request');
 
 // Private variables.
 var newOne = '1101';
@@ -18,8 +20,6 @@ var startRow, lastRow = 0;
 // Colors
 var white = 0xFFFFFFFF; 
 var black = 0x000000FF;
-var red = 0xFF0000FF;
-var green = 0x00FF00FF; 
 
 module.exports = {
     expandMessage: function(message) {
@@ -49,14 +49,15 @@ module.exports = {
         return message; 
     },
 
-    createImage: function(messages, otherParams) {
+    createImage: function(messages, otherParams, onImage) {
         // Browser Parameters. 
         externalBufferHeight = parseInt(otherParams.erows); 
         inbetweenBufferHeight = parseInt(otherParams.irows);
         
+        console.log('Creating image buffer'); 
         createBuffer(messages);
-        console.log('Image Parameters: Widh, Height, External Rows, Internal Rows: ' + 
-            fullImgWidth + ', ' + lastRow + ', ' + externalBufferHeight + ', ' + inbetweenBufferHeight);
+
+        var imageName = 'newImage.png';
         var image = new Jimp(fullImgWidth, lastRow, (err, img) => {
             if (err) throw err;
 
@@ -66,9 +67,17 @@ module.exports = {
                     img.setPixelColor(color, x, y);
                 });
             });
-            img.write('newImage.png');
+
+            // Transmit image to the web browser (via Socket emit) so it can be dowloaded on the browser. 
+            img.getBase64(Jimp.MIME_PNG, function(err, result) {
+                if (err) throw err; 
+                onImage(result); 
+            });
+
             console.log('Success: Image Created'); 
-        }); 
+            console.log('Image Parameters: Width, Height, External Rows, Internal Rows: ' + 
+            fullImgWidth + ', ' + lastRow + ', ' + externalBufferHeight + ', ' + inbetweenBufferHeight);
+        });
     }
 };
 

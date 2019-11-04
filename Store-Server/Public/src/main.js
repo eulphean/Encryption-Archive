@@ -66,6 +66,7 @@ function onConnected() {
 
   // Subsribe to other events. 
   socket.on('showEntries', showEntries); 
+  socket.on('imageData', downloadImage); 
   socket.on('time', logTime); 
   socket.on('disconnect', () => console.log('Socket Server Disconnected')); 
 }
@@ -92,6 +93,17 @@ function showEntries(entries) {
     var binaryCell = row.insertCell(3); 
     binaryCell.innerHTML = entries[i].encrypted; 
   }
+}
+
+function downloadImage(imageData) {
+  var weave = document.getElementById('weave');
+  weave.href = imageData;
+  var date = new Date(); 
+  var dateString = date.toDateString();
+  var timeString = date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(); 
+  var name = "Weave " + dateString + ' ' + timeString; 
+  weave.download = name;
+  weave.click();
 }
 
 
