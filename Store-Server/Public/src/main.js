@@ -5,8 +5,6 @@ var table;
 
 var localhostURL = "http://localhost:5000/store"
 var herokuURL = "https://mysterious-shore-86207.herokuapp.com/store";
-var newOne = '1101';
-var newZero = '0010'; 
 
 function setup(){
   table = document.getElementById('entries');
@@ -33,27 +31,34 @@ function logTime(time) {
 function onEntries() {
   // Clear the table first. 
   clearTable(); 
-  var bounds = getBounds('show'); 
-  socket.emit('readEntries', bounds);
+  var data = getData('show'); 
+  socket.emit('readEntries', data);
 }
 
 function onDownload() {
   // Get all the entries from the database. 
   clearTable();
-  var bounds = getBounds('download'); 
-  socket.emit('readEntries', bounds);
+  var data = getData('download'); 
+  socket.emit('readEntries', data);
 }
 
-function getBounds(s) {
-  var start = document.getElementById('start').value; 
-  var end = document.getElementById('end').value; 
-  console.log('Start: ' + start); console.log('End: ' + end); 
-  var bounds = { 
-    from: start, 
-    to: end,
-    state: s // Determines what kind of callback to fire from the store. 
+function getData(s) {
+  var startDate = document.getElementById('start').value; 
+  var endDate = document.getElementById('end').value; 
+  var externalBufferRows = document.getElementById('externalbuffer').value
+  var inbetweenBufferRows = document.getElementById('inbetweenbuffer').value;
+
+  var data = { 
+    from: startDate, 
+    to: endDate,
+    state: s, // Determines what kind of callback to fire from the store. 
+    erows: externalBufferRows,
+    irows: inbetweenBufferRows
   }; 
-  return bounds; 
+
+  console.log('Browser payload: ' + data.erows + ' ' + data.irows); 
+
+  return data; 
 }
 
 function onConnected() {
@@ -61,7 +66,6 @@ function onConnected() {
 
   // Subsribe to other events. 
   socket.on('showEntries', showEntries); 
-  socket.on('downloadEntries', downloadEntries)
   socket.on('time', logTime); 
   socket.on('disconnect', () => console.log('Socket Server Disconnected')); 
 }
@@ -90,26 +94,6 @@ function showEntries(entries) {
   }
 }
 
-function downloadEntries(entries) {
-  // Then modify all the entries and store it into a new local array
-  // Then create an image using this data (look at python code for original image dimensions)
-  
-  // Show these entries.
-  showEntries(entries);
-
-  // Expand these messages based on the scheme Dylan gave me.
-  var expandedMessages = []; 
-  for (var i in entries) {
-    var newMsg = getExpandedMessage(entries[i].encrypted); 
-    expandedMessages.push(newMsg); 
-  }
-
-  // Create an image (buffer up/buffer down with a specific dimension)
-  // Take these strings (complete them to the end for the width)
-  // Append them into the image
-  // Download the image. 
-}
-
 
 function clearTable() {
   var rowCount = table.rows.length;
@@ -136,16 +120,4 @@ function setupTableTitle() {
   var binaryCell = row.insertCell(3);
   binaryCell.innerHTML = 'BINARY STRING';
   binaryCell.width = '70%';
-}
-
-function getExpandedMessage(message) {
-  var newMsg = ''; 
-  for (var i = 0; i < message.length; i++) {
-    if (message[i] === '0') {
-      newMsg = newMsg + newZero;
-    } else if (message[i] === '1') {
-      newMsg = newMsg + newOne; 
-    }
-  }
-  return newMsg; 
 }

@@ -6,6 +6,7 @@
 var express = require('express'); 
 var socket = require('socket.io');
 var Pool = require('pg').Pool; 
+var imgBuilder = require('./imgBuilder.js');
 
 // ------------------ postgresql database ---------------------- // 
 const connString = process.env['DATABASE_URL'];
@@ -55,28 +56,33 @@ function onHerokuAppConnected(socket) {
     socket.on('disconnect', () => console.log('Heroku Client ' + socket.id + ' diconnected'));
 }
 
-function onReadEntries(bounds) {
-    console.log('Request to Read entries from ' + bounds.from + ' to ' + bounds.to);
+var otherParams; 
+function onReadEntries(data) {
+    console.log('Request to Read entries from ' + data.from + ' to ' + data.to);
 
     // Chose the callback to send the results back. 
     var sqlQueryCallback;
-    if (bounds.state == 'show') {
+    if (data.state == 'show') {
         sqlQueryCallback = showEntriesCallback;
-    } else if (bounds.state == 'download') {
+    } else if (data.state == 'download') {
         sqlQueryCallback = downloadEntriesCallback; 
+        otherParams = {
+            erows : data.erows,
+            irows : data.irows
+        }; 
     }
     
     // Creating the query
     var queryText = ''; 
-    if (bounds.from && bounds.to) {
+    if (data.from && data.to) {
         queryText = 'SELECT * FROM entries WHERE date >= $1 AND date <= $2';
-        pool.query(queryText, [bounds.from, bounds.to], sqlQueryCallback); 
-    } else if (bounds.from && !bounds.to) {
+        pool.query(queryText, [data.from, data.to], sqlQueryCallback); 
+    } else if (data.from && !data.to) {
         queryText = 'SELECT * FROM entries WHERE date >= $1'; 
-        pool.query(queryText, [bounds.from], sqlQueryCallback); 
-    } else if (bounds.to && !bounds.from) {
+        pool.query(queryText, [data.from], sqlQueryCallback); 
+    } else if (data.to && !data.from) {
         queryText = 'SELECT * FROM entries WHERE date <= $1'; 
-        pool.query(queryText, [bounds.to], sqlQueryCallback); 
+        pool.query(queryText, [data.to], sqlQueryCallback); 
     } else {
         queryText = 'SELECT * FROM entries'; 
         pool.query(queryText, sqlQueryCallback); 
@@ -96,7 +102,19 @@ function downloadEntriesCallback(error, results) {
         throw error; 
     }
 
-    storeSocket.emit('downloadEntries', results.rows); 
+    // Expand the messages as per the newOne and newZero format
+    var processedMessages = []; 
+    var entries = results.rows; 
+    for (var i in entries) {
+        var encrypted = entries[i].encrypted; 
+        var newMsg = imgBuilder.expandMessage(imgBuilder.fitMessage(encrypted)); 
+        processedMessages.push(newMsg); 
+    }
+
+    // Create an image with all these processed images. 
+    imgBuilder.createImage(processedMessages, otherParams); 
+
+    storeSocket.emit('showEntries', results.rows); 
 }
 
 function onPayload(payload) {

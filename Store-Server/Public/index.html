@@ -4,35 +4,88 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encryption Store</title>
-    <style> body {padding: 0; margin: 0;} </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <script type="text/javascript" src="Library/p5.min.js"></script>
-    <script type="text/javascript" src="Library/p5.dom.min.js"></script>
-    <script type="text/javascript"src="src/main.js"></script>
-    <style>
+    <style> 
+      body {
+        padding: 0; margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px; 
+      }
+
+      .form {
+        display: flex; 
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+
+      .item {
+        display: flex; 
+        align-items: center; 
+        flex-direction: row; 
+        justify-content: space-around;
+        padding-bottom: 10px; 
+      }
+
+      input {
+        height: 30px; 
+        border: solid; 
+        border-color: black; 
+      }
+
+      label {
+        padding-right: 20px; 
+      }
+
+      .input {
+        padding-left: 18px; 
+        padding-top: 10px; 
+        font-size: 20px;
+      }
+
+      .buttons {
+        padding: 20px 0 20px 0;
+      }
+      
+      button {
+        font-size: 20px; 
+        margin-right: 15px;
+        border-color: black; 
+      }
+
       table, td {
+        font-size: 15px;
         border: 1px solid black;
         table-layout: fixed;
         text-align: center;
-        margin-top: 20px;
         box-sizing: border-box;
         word-wrap: break-word
       }
 
-      form {
-        margin: 20px
+      h2 {
+        color: darkslategrey;
       }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script type="text/javascript" src="Library/p5.min.js"></script>
+    <script type="text/javascript" src="Library/p5.dom.min.js"></script>
+    <script type="text/javascript"src="src/main.js"></script>
   </head>
   <body>
-    <form>
-        Start Date<br>
-        <input type="date" id="start" /><br><br>
-        End Date<br>
-        <input type="date" id="end"/><br><br>
-        <input type="button" value="Entries" onclick="onEntries()"/>
-        <span style="padding: left 5px"><input type="button" value="Download" onclick="onDownload()"/></span>
-    </form>
-    <table id="entries"></table>
+    <div class=container>
+        <div class='input'>
+            <h2>Encryption Archive Weaver</h2>
+            <div class="form">
+                <div class='item'><label class='datelabel' for=start>Start Date</label><input type="date" id="start" /></div>
+                <div class='item'><label class='datelabel' for=end>End Date</label><input type="date" id="end"/></div>
+                <div class='item'><label for="externalbuffer">External Buffer (#rows)</label><input type="text" id="externalbuffer" value=50 /></div>
+                <div class='item'><label for="inbetweenbuffer">In Between Buffer (#rows)</label><input type="text" id="inbetweenbuffer" value=0 /></div>
+            </div>
+            <div class='buttons'>
+              <button onclick="onEntries()">SHOW ENTRIES</button>
+              <button onclick="onDownload()">WEAVE</button>
+            </div>
+        </div>
+        <table id="entries"></table>
+    </div>
   </body>
 </html>
