@@ -1,6 +1,4 @@
 var Jimp = require('jimp'); 
-const fs = require('fs');
-const response = require('request');
 
 // Private variables.
 var newOne = '1101';

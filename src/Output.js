@@ -35,12 +35,16 @@ class Output {
         console.log('Rows, Columns: ' + this.rows + ', ' + this.columns);
     }
 
-    draw() {
+    draw(shouldAnimate) {
         var timer = 0; 
         for (var i = 0; i < this.rows; i++) {
             for (var j = 0; j < this.columns; j++) {
                 var idx = 2*i + j; 
-                setTimeout(this.drawCell.bind(this), (timer + idx) * 10, this.cells[i][j]);
+                if (shouldAnimate) {
+                    setTimeout(this.drawCell.bind(this), (timer + idx) * 0.5, this.cells[i][j]);
+                } else {
+                    this.cells[i][j].draw(); // Don't animate // Just draw. 
+                }
             }
         }
     }
@@ -71,7 +75,7 @@ class Output {
     updateCells(binaryString) {
         // Initialize . 
         this.initGrid();
-        this.draw(); 
+        this.draw(false); 
 
         // We leave 4 columns on either side. 
         var usableColumns = (this.columns-8); 
@@ -97,8 +101,8 @@ class Output {
             for (var j = 4; j <= this.columns-5; j++) {
                 this.cells[i][j].col = (binaryString[item] == 0) ? black : white; 
                 var idx = 2*i + j; 
-                setTimeout(this.drawCell.bind(this), (timer + idx) * 10, this.cells[i][j]);
-                // this.cells[i][j].draw(); 
+                setTimeout(this.drawCell.bind(this), (timer + idx), this.cells[i][j]);
+                //this.cells[i][j].draw(); 
                 item++; 
                 if (item == binaryString.length) {
                     break; 

@@ -12,7 +12,7 @@ var socket = io.connect(herokuURL, {
     reconnection: true, 
     reconnectionDelay: 500, 
     reconnectionAttempts: Infinity 
-});
+}); 
 
 var escpos = require('escpos');
 // Setup device and printer with the baudrate. 
@@ -122,7 +122,7 @@ function generateFooter() {
     printer.font('a'); 
     printer.style('b'); 
     printer.size(1, 1); 
-    printer.text('THANK YOU'); 
+    printer.text('DYLAN FISH'); 
 }
 
 function printMessage(encryptedMsg) {

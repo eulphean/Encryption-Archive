@@ -47,7 +47,7 @@ function setup() {
 
 function draw() {
   // put drawing code here
-  output.draw(); 
+  output.draw(true); 
   noLoop();
 }
 

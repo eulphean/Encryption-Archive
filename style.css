@@ -78,7 +78,7 @@ a:hover {
 
 @keyframes example {
     from {color: white;}
-    to {color: yellow;}
+    to {color:#00FF00;}
 }
 
 
@@ -142,9 +142,14 @@ a:hover {
     font-size: inherit;
     font-family: inherit;
     /* color: white; */
+    background-color: #00FF00; 
     border-color: black;
-    background-image: linear-gradient(to bottom right, black , lightgray);
     transition: transform 3s ease-in-out 0s;
+    color: black; 
+}
+
+.gradient {
+    background-image: linear-gradient(to bottom right, black , lightgray);
 }
 
 .animate {

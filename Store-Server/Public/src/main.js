@@ -97,7 +97,7 @@ function downloadImage(imageData) {
   var date = new Date(); 
   var dateString = date.toDateString();
   var timeString = date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(); 
-  var name = "Weave " + dateString + ' ' + timeString; 
+  var name = "Weave " + dateString + ' ' + timeString + '.png'; 
   weave.download = name;
   weave.click();
 }
