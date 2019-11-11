@@ -38,14 +38,11 @@ body, html {
 }
 
 a {
-    animation-name: example;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+    color:#00FF00;
 }
 
 a:hover {
-    color: red;
+    color: red; 
 }
 
 /* Title Styles */
@@ -74,11 +71,6 @@ a:hover {
     justify-content: flex-end; 
     width: 25%;
     box-sizing: border-box;
-}
-
-@keyframes example {
-    from {color: white;}
-    to {color:#00FF00;}
 }
 
 
@@ -141,19 +133,14 @@ a:hover {
     width: 25%;
     font-size: inherit;
     font-family: inherit;
-    /* color: white; */
-    background-color: #00FF00; 
+    background-color: grey; 
     border-color: black;
-    transition: transform 3s ease-in-out 0s;
+    transition: background-color 2s ease-in-out 0s;
     color: black; 
 }
 
-.gradient {
-    background-image: linear-gradient(to bottom right, black , lightgray);
-}
-
 .animate {
-    transform: rotate(360deg);
+    background-color: #00FF00;
 }
 
 .inputbutton:disabled {
