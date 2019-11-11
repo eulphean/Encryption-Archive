@@ -98,7 +98,15 @@ class Output {
 
         // Figure out which row to start updating the cells. 
         var centerRow = Math.ceil(this.rows/2); 
-        var startRow = centerRow - Math.floor(numRowsForString/2); 
+
+        var startRow; 
+        // Show all the possible text. 
+        if (numRowsForString > this.rows) {
+            startRow = 0; 
+        } else {
+            startRow = centerRow - Math.floor(numRowsForString/2); 
+        }
+
         console.log('String rows, centerRow, startRow: ' + numRowsForString + ', ' + centerRow + ', ' + startRow);
 
         // Update and draw the cells that I want to update.

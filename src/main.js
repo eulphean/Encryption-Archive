@@ -58,7 +58,6 @@ function logTime(time) {
 function onEncrypt(message) {
     // Encrypt the message that is written. 
     var out = encrypter.encrypt(message); 
-    var charString = out['char']; 
     var binaryString = out['binary'];
     var key = out['key'];
 
