@@ -8,6 +8,8 @@
 
 :root {
     --fontSizeDesktop : 25px; 
+    --fontSizeDesktopModalTitle: 20px; 
+    --fontSizeDesktopModal: 18px; 
     --fontSizeMobile : 15px; 
     --fontSizeMobileTiny : 13px; 
     --fontSizeIpad: 20px; 
@@ -17,6 +19,7 @@
     --paddingHorizontalMobile: 23px; 
     --paddingVertical: 80px;
     --bgColor: black; 
+    --pureGreen: #00FF00; 
     --topHeight: 6vh; 
     /* Any changes here must be changed in main.js canvasHeightFactor as well. */
     --outputHeight: 65vh; 
@@ -29,6 +32,8 @@ body, html {
     background-color:black;
     box-sizing: border-box;
     font-size: var(--fontSizeDesktop);
+    font-family: var(--fontFamily);
+    color: var(--fontColor);
     width: 100%;
     height: 100%; 
 }
@@ -38,7 +43,7 @@ body, html {
 }
 
 a {
-    color:#00FF00;
+    color:var(--pureGreen); 
 }
 
 a:hover {
@@ -51,8 +56,6 @@ a:hover {
     flex-direction: row;
     background-color: black; 
     font-size: inherit;
-    color: var(--fontColor);
-    font-family: var(--fontFamily);
     box-sizing: border-box; 
     width: 100vw;
     height: var(--topHeight);
@@ -140,7 +143,7 @@ a:hover {
 }
 
 .animate {
-    background-color: #00FF00;
+    background-color: var(--pureGreen);
 }
 
 .inputbutton:disabled {
@@ -153,6 +156,44 @@ textarea::placeholder {
 
 .bar {
     display : inline;
+}
+
+/* Modal Styles */
+.modal {
+    color: white; 
+    display: none;
+}
+
+.modalContainer {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: justify; 
+    font-size: var(--fontSizeDesktopModal)
+}
+
+.modalTitle {
+    font-size: var(--fontSizeDesktopModalTitle);
+    color: var(--pureGreen); 
+    padding: 20px; 
+}
+
+.profile {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+}
+
+.profileContent {
+    padding-right: 20px; 
+    text-align: justify;
+}
+
+.modalimg {
+    clip-path: circle(100px at center);
+    width: 20%; 
+    height: 20%; 
 }
 
 @media only screen and (max-width: 1024px) {
