@@ -41,3 +41,15 @@ heroku logs --tail
 
 // Open the web app that the node.js server is serving.
 heroku open
+
+
+// Accessing Datbase through my heroku directory
+// heroku pg:psql
+
+// Seeing the table - /dt
+
+// Deleting an entry with a specific key'
+// DELETE FROM entries WHERE key LIKE '%<actualkey>%';
+
+// DELETE ALL THE CONTENT FROM A Table
+// DELETE FROM entries; 
