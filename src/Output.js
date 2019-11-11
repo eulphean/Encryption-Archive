@@ -26,7 +26,13 @@ class Output {
         this.canvas.parent(middle);
 
         this.cells = []; 
-        this.columns = width/cellSize; 
+
+        // Calculate columns (should be always odd)
+        var c = Math.ceil(width/cellSize); 
+        if (c%2!=0) {
+            c+=1; 
+        }
+        this.columns = c;  
         this.rows = height/cellSize; 
 
         // Initialize encryption bed. 
@@ -55,7 +61,8 @@ class Output {
 
     initGrid() {
         var idx = 0; 
-        console.log('Rows: ' + this.rows + 'Columns: ' + this.columns); 
+        console.log('Rows: ' + this.rows);
+        console.log('Columns: ' + this.columns); 
         for (var i = 0; i < this.rows; i++) {
             this.cells[i] = []; // 2D array assign.
             for (var j = 0; j < this.columns; j++) {
