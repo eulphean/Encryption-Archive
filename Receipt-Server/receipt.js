@@ -78,10 +78,12 @@ function generateHeader(date, time, key) {
 
     // Font style. 
     printer.font('b');
-    printer.style('bu');
+    printer.style('b');
     printer.size(2, 2); 
 
     printer.text('ENCRYPTION ARCHIVE'); 
+    printer.size(1, 1); 
+    printer.text('www.encryptionarchive.net'); 
     printer.newLine(); 
 
     // ------------- Date, Time, Key ---------- // 
