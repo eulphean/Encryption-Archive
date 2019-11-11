@@ -138,7 +138,7 @@ a:hover {
     font-family: inherit;
     background-color: grey; 
     border-color: black;
-    transition: background-color 2s ease-in-out 0s;
+    transition: background-color 1s ease-in-out 0s;
     color: black; 
 }
 
