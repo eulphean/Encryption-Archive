@@ -192,6 +192,7 @@ textarea::placeholder {
 }
 
 .modalimg {
+    -webkit-clip-path: circle(45% at center);
     clip-path: circle(45% at center);
     width: 20%; 
     height: 20%; 
@@ -232,6 +233,7 @@ textarea::placeholder {
 
     .profileContent {
         padding-left: 0px;
+        text-align: center;
     }
 
     .modalimg {
