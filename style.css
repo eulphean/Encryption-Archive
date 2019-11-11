@@ -169,7 +169,7 @@ textarea::placeholder {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: justify; 
+    text-align: center; 
     font-size: var(--fontSizeDesktopModal)
 }
 
@@ -183,15 +183,16 @@ textarea::placeholder {
     display: flex; 
     flex-direction: row; 
     align-items: center;
+    margin-bottom: 1em;
 }
 
 .profileContent {
-    padding-right: 20px; 
-    text-align: justify;
+    padding-left: 20px; 
+    text-align: left;
 }
 
 .modalimg {
-    clip-path: circle(100px at center);
+    clip-path: circle(45% at center);
     width: 20%; 
     height: 20%; 
 }
@@ -216,6 +217,29 @@ textarea::placeholder {
     #datetimecontainer {
         width: 40%;
     }
+
+    .modalContainer {
+        font-size: var(--fontSizeIpad)
+    }
+    
+    .modalTitle {
+        font-size: var(--fontSizeIpad);
+    }
+
+    .profile {
+        flex-direction: column; 
+    }
+
+    .profileContent {
+        padding-left: 0px;
+    }
+
+    .modalimg {
+        clip-path: circle(45% at center);
+        width: 30%; 
+        height: 30%; 
+    }
+
 }
 
 @media only screen and (max-width: 768px) {
@@ -254,6 +278,12 @@ textarea::placeholder {
         width: 40%;
         display: flex;
         flex-direction: column;
+    }
+
+    .modalimg {
+        clip-path: circle(45% at center);
+        width: 40%; 
+        height: 40%; 
     }
 }
 
@@ -300,10 +330,26 @@ textarea::placeholder {
     .textinput {
         padding: var(--paddingHorizontalMobile);
     }
+
+    .modalContainer {
+        font-size: var(--fontSizeMobile)
+    }
+    
+    .modalTitle {
+        font-size: var(--fontSizeMobile);
+    }
 }
 
 @media only screen and (max-width: 375px) {
     body {
+        font-size: var(--fontSizeMobileTiny);
+    }
+
+    .modalContainer {
+        font-size: var(--fontSizeMobileTiny)
+    }
+    
+    .modalTitle {
         font-size: var(--fontSizeMobileTiny);
     }
 }

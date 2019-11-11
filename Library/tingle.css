@@ -152,6 +152,21 @@
 /* responsive
 -------------------------------------------------------------- */
 
+@media (max-width : 1024px) {
+  .tingle-btn--primary{
+    font-size: 15px; 
+  }
+
+}
+
+@media (max-width : 768px) {
+  .tingle-btn--primary{
+    font-size: 13px;
+  }
+
+}
+
+
 @media (max-width : 540px) {
   .tingle-modal-box__footer {
     padding: 15px; 
@@ -163,7 +178,7 @@
 
   .tingle-modal-box__content {
     overflow-y: scroll;
-    padding: 15px 5px 0px 5px;
+    padding: 15px 20px 15px 20px;
   }
 
   .tingle-modal--noClose {
@@ -173,6 +188,17 @@
   .tingle-modal--noOverlayClose {
     padding-top: 0;
   }
+
+  .tingle-btn--primary {
+    font-size: 13px; 
+  }
+}
+
+@media (max-width : 414px) {
+  .tingle-btn--primary{
+    font-size: 12px; 
+  }
+
 }
 
 @supports ((-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px))) {
