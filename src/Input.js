@@ -59,13 +59,13 @@ class Input {
     disableButton() {
         this.encrypt.style('color', '#cfcfcf');
         this.encrypt.attribute('disabled', true); 
-        this.encrypt.addClass('gradient');
+        this.encrypt.removeClass('animate');
     }
 
     enableButton() {
         // Enable color
         this.encrypt.style('color', 'black');
         this.encrypt.removeAttribute('disabled'); 
-        this.encrypt.removeClass('gradient');
+        this.encrypt.addClass('animate');
     }
 }

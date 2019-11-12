@@ -107,12 +107,14 @@ function downloadEntriesCallback(error, results) {
     var entries = results.rows; 
     for (var i in entries) {
         var encrypted = entries[i].encrypted; 
-        var newMsg = imgBuilder.expandMessage(imgBuilder.fitMessage(encrypted)); 
+        var newMsg = imgBuilder.expandMessage(encrypted); 
         processedMessages.push(newMsg); 
     }
 
+    // We have expanded messages at this point. 
+    var weaveString = imgBuilder.createWeaveString(processedMessages, otherParams.irows);
     // Create an image with all these processed images. 
-    imgBuilder.createImage(processedMessages, otherParams, onImage); 
+    imgBuilder.createImage(weaveString, otherParams.erows, onImage); 
     storeSocket.emit('showEntries', results.rows); 
 }
 

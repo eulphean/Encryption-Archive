@@ -6,9 +6,7 @@ var newZero = '0010';
 var numBufferColums = 4; 
 var externalBufferHeight = 200; // Get from the website
 var inbetweenBufferHeight = 10;  // Get from the website
-var fullImgWidth = 3976; 
-// Width we want to fit the message to (before expanding that basically multiplies the message by 4)
-var fitWidth = (3976 - (numBufferColums * 2))/4;  // 992
+var fullImgWidth = 3984; 
 
 // Buffer related variables. 
 var buffer = []; 
@@ -32,28 +30,35 @@ module.exports = {
         return newMsg; 
     },
 
-    fitMessage: function(message) {
-        // Original message should be received here.
-        var msgLength = message.length; 
-        var numsRowsNeeded = Math.ceil(msgLength / fitWidth);
-        var cellsToFill = (fitWidth * numsRowsNeeded) - msgLength; 
-    
-        // Modify encrypted message and append last char x remainder times. 
-        var newChar = message[msgLength - 1] == 1 ? 0 : 1; 
-        for (var i = 0; i < cellsToFill; i++) {
-            message += newChar; 
-            newChar = (newChar + 1) % 2; 
+    createWeaveString: function(expandedMessages, iBuffer) {
+        // iBuffer is a # like 4, 6, 8, 10, or 16
+        // Create an inbetween buffer with it. 
+        var inbetweenBuffer = ''; 
+        var newChar = 1; 
+        for (var i in iBuffer) {
+            inbetweenBuffer += newChar; 
+            newChar = (newChar+1) % 2; 
         }
-        return message; 
-    },
 
-    createImage: function(messages, otherParams, onImage) {
+        var weaveMessageString = '';
+        for (var i = 0; i < expandedMessages.length; i++) {
+            weaveMessageString += expandedMessages[i]; 
+            if (i != expandedMessages.length-1) {
+                weaveMessageString += inbetweenBuffer; 
+            }
+        }
+
+        var weaveString = fitString(weaveMessageString); 
+        console.log('Weave String Created: ' + weaveString.length); 
+        return weaveString; 
+    }, 
+
+    createImage: function(weaveString, externalRows, onImage) {
         // Browser Parameters. 
-        externalBufferHeight = parseInt(otherParams.erows); 
-        inbetweenBufferHeight = parseInt(otherParams.irows);
+        externalBufferHeight = parseInt(externalRows); 
         
         console.log('Creating image buffer'); 
-        createBuffer(messages);
+        createBuffer(weaveString);
 
         var imageName = 'newImage.png';
         var image = new Jimp(fullImgWidth, lastRow, (err, img) => {
@@ -79,47 +84,41 @@ module.exports = {
     }
 };
 
-function createBuffer(messages) {
+function createBuffer(weaveString) {
     startRow = 0; lastRow = externalBufferHeight; 
     externalBuffer(startRow, lastRow); 
-    console.log('Num Messages Printing: ' + messages.length);
 
-    for (var i = 0; i < messages.length; i++) {
-        createMessageBuffer(messages[i]); // Create messages without in between things. 
-        if (i != messages.length - 1 && inbetweenBufferHeight > 0) {
-            startRow = lastRow; lastRow = startRow + inbetweenBufferHeight; 
-            externalBuffer(startRow, lastRow);
-        }
-    }
-
+    // Convert Weave Block into buffer pixels. 
+    createWeaveBuffer(weaveString); 
+    
     startRow = lastRow; lastRow = startRow + externalBufferHeight; 
     externalBuffer(startRow, lastRow);
 }
 
-function createMessageBuffer(message) {
-    var printableColumns = fullImgWidth - 2*numBufferColums; 
-    var numRows = Math.ceil(message.length / printableColumns); // Number of rows to print this message. 
-    startRow = lastRow; lastRow = startRow + numRows;
+function createWeaveBuffer(weaveString) {
+    var numMsgColumns = fullImgWidth - 2*numBufferColums; 
+    var numMsgRows = weaveString.length / numMsgColumns;
 
-    var msgIdx = 0;
+    startRow = lastRow; lastRow = startRow + numMsgRows; 
+    
+    // Keeps track of what 1D value I'm accessing. 
+    var weaveIdx = 0; 
     for (var i = startRow; i < lastRow; i++) {
         buffer[i] = []; 
-
-        // Print left column buffer. 
-        colIdx = createColumnBuffer(i, 0, numBufferColums);
+        // 1st 4 columns. 
+        createColumnBuffer(i, 0, numBufferColums);
         
-        // Create buffer based on message characters. 
         var bufIdx = 4; 
-        for (var k = 0; k < message.length; k++) { // 40 chars  
-            var c = message[msgIdx]; 
-            if (c==0) {
+        for (var j = 0; j < numMsgColumns; j++) {
+            var element = weaveString[weaveIdx]; 
+            if (element==0) {
                 buffer[i][bufIdx] = black; 
             } else {
                 buffer[i][bufIdx] = white;
             }
-            
+            // Keep track of current weave's index. 
+            weaveIdx++; 
             bufIdx++; 
-            msgIdx++; 
         }
 
         createColumnBuffer(i, fullImgWidth-numBufferColums, fullImgWidth); 
@@ -128,14 +127,16 @@ function createMessageBuffer(message) {
 }
 
 function createColumnBuffer(row, start, end) {
-    for (var j = start; j < end; j++) {
+    var idx; 
+    for (idx = start; idx < end; idx++) {
         if (idxTracker%2==0) {
-            buffer[row][j] = black;
+            buffer[row][idx] = black;
         } else {
-            buffer[row][j] = white; 
+            buffer[row][idx] = white; 
         }
         idxTracker++; 
     } 
+    return idx; 
 }
 
 function externalBuffer(startRow, lastRow) {
@@ -151,4 +152,20 @@ function externalBuffer(startRow, lastRow) {
         }
         idxTracker++; 
     }
+}
+
+function fitString(weaveString) {
+    var length = weaveString.length; 
+    var usableWidth = fullImgWidth-2*numBufferColums; 
+
+    var numsRowsNeeded = Math.ceil(length / usableWidth);
+    var cellsToFill = (usableWidth * numsRowsNeeded) - length; 
+
+    // Modify encrypted message and append last char x remainder times. 
+    var newChar = weaveString[length - 1] == 1 ? 0 : 1; 
+    for (var i = 0; i < cellsToFill; i++) {
+        weaveString += newChar; 
+        newChar = (newChar + 1) % 2; 
+    }
+    return weaveString; 
 }

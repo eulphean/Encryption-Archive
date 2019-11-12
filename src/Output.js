@@ -26,7 +26,13 @@ class Output {
         this.canvas.parent(middle);
 
         this.cells = []; 
-        this.columns = width/cellSize; 
+
+        // Calculate columns (should be always odd)
+        var c = Math.ceil(width/cellSize); 
+        if (c%2!=0) {
+            c+=1; 
+        }
+        this.columns = c;  
         this.rows = height/cellSize; 
 
         // Initialize encryption bed. 
@@ -55,7 +61,8 @@ class Output {
 
     initGrid() {
         var idx = 0; 
-        console.log('Rows: ' + this.rows + 'Columns: ' + this.columns); 
+        console.log('Rows: ' + this.rows);
+        console.log('Columns: ' + this.columns); 
         for (var i = 0; i < this.rows; i++) {
             this.cells[i] = []; // 2D array assign.
             for (var j = 0; j < this.columns; j++) {
@@ -91,7 +98,15 @@ class Output {
 
         // Figure out which row to start updating the cells. 
         var centerRow = Math.ceil(this.rows/2); 
-        var startRow = centerRow - Math.floor(numRowsForString/2); 
+
+        var startRow; 
+        // Show all the possible text. 
+        if (numRowsForString > this.rows) {
+            startRow = 0; 
+        } else {
+            startRow = centerRow - Math.floor(numRowsForString/2); 
+        }
+
         console.log('String rows, centerRow, startRow: ' + numRowsForString + ', ' + centerRow + ', ' + startRow);
 
         // Update and draw the cells that I want to update.

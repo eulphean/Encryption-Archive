@@ -58,7 +58,6 @@ function logTime(time) {
 function onEncrypt(message) {
     // Encrypt the message that is written. 
     var out = encrypter.encrypt(message); 
-    var charString = out['char']; 
     var binaryString = out['binary'];
     var key = out['key'];
 
@@ -97,17 +96,15 @@ function initModal() {
   // New modal. 
   modal = new tingle.modal({
       footer: true,
-      stickyFooter: true
+      stickyFooter: false
   });
 
-  /// Append dom elements that I want to show. 
-  // var tz = document.getElementsByClassName('tooltipTz')[0].outerHTML; 
-  // var clock = document.getElementsByClassName('tooltipClock')[0].outerHTML; 
-  // var caption = document.getElementsByClassName('tooltipCaption')[0].outerHTML; 
-  modal.setContent('<div>Static Description Text about the project from Dylan</div');
+  var content = document.querySelector('.modal'); 
+  console.log(content); 
+  modal.setContent(content.innerHTML);
 
   // // add a button
-  modal.addFooterBtn('OK', 'tingle-btn tingle-btn--primary', ()=> {
+  modal.addFooterBtn('CLOSE', 'tingle-btn tingle-btn--primary', ()=> {
       // here goes some logic
       modal.close();
   });
