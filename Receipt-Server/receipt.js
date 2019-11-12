@@ -19,29 +19,16 @@ var escpos = require('escpos');
 // '/dev/cu.Repleo-PL2303-00002014'
 
 var device, printer; 
-try {	
-    device = new escpos.Serial('/dev/ttyUSB0', {
-        autoOpen: true,
-        baudRate: 38400, 
-    });
-    printer = new escpos.Printer(device); 
+device = new escpos.Serial('/dev/ttyUSB0', {
+    autoOpen: true,
+    baudRate: 38400, 
+});
+printer = new escpos.Printer(device); 
 
-} catch (e) {
-  console.log('Unable to find a printer device. Disconnect and try again.');
-  console.log(e); 
-}
-
-try {
-  // Clean Printer Routine (don't mess with this)
-  printer.feed(1);
-  printer.cut(0, 5);
-  printer.flush();
-} catch (e) {
-  console.log('Failure while printing: Check if we have run out of paper.');
-  console.log('Close this and restart service'); 
-  console.log(e);
-}
-
+// Clean Printer Routine (don't mess with this)
+printer.feed(1);
+printer.cut(0, 5);
+printer.flush();
 
 socket.on('connect', () => {
     console.log('Connected'); 
@@ -64,24 +51,23 @@ function onPayload (payload) {
 
     // Modify encrypted message to fit it in receipt. 
     encryptedMsg = fitMessageInReceipt(encryptedMsg); 
-
     console.log('New Encrypted Msg Length: ' + encryptedMsg.length); 
-
+    
+    try {
         // Printer commands to generate a receipt. 
         device.open(function() {
-            try {
-                // Set basic styles. 
-                generateHeader(date, time, key); 
-                printer.newLine(); 
-                generateMiddle(encryptedMsg);
-                generateFooter(); 
-                printer.cut(0, 5);
-                printer.flush();  
-            } catch (e) {
-                console.log('Failure while printing: Check if we have run out of paper.');
-                console.log(e); 
-            }
+            // Set basic styles. 
+            generateHeader(date, time, key); 
+            printer.newLine(); 
+            generateMiddle(encryptedMsg);
+            generateFooter(); 
+            printer.cut(0, 5);
+            printer.flush();  
         });
+    } catch (e) {
+        console.log('Failure while printing: Check if we have run out of paper.');
+        console.log(e); 
+    }; 
 }
 
 function generateHeader(date, time, key) {
