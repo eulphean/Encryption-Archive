@@ -16,6 +16,7 @@ var socket = io.connect(herokuURL, {
 
 var escpos = require('escpos');
 // Setup device and printer with the baudrate. 
+// '/dev/cu.Repleo-PL2303-00002014'
 var device = new escpos.Serial('/dev/ttyUSB0', {
     autoOpen: true,
     baudRate: 38400,
