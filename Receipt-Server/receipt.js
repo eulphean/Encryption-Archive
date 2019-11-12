@@ -17,18 +17,33 @@ var socket = io.connect(herokuURL, {
 var escpos = require('escpos');
 // Setup device and printer with the baudrate. 
 // '/dev/cu.Repleo-PL2303-00002014'
-var device = new escpos.Serial('/dev/ttyUSB0', {
+
+var device; 
+try {	
+    device = new escpos.Serial('/dev/ttyUSB0', {
     autoOpen: true,
-    baudRate: 38400,
-});
+    baudRate: 38400, 
+  });
+  console.log(device);
+}catch (e) {
+  console.log('Failure while printing: Check if we have run out of paper.');
+  console.log(e); 
+}
+
 
 const printer = new escpos.Printer(device);
-// Clean Printer Routine (don't mess with this)
-printer.feed(1);
-// printer.flush();
-// printer.flush();
-printer.cut(0, 5);
-printer.flush();
+
+try {
+  // Clean Printer Routine (don't mess with this)
+  printer.feed(1);
+  printer.cut(0, 5);
+  printer.flush();
+}catch (e) {
+  console.log('Failure while printing: Check if we have run out of paper.');
+  console.log('Close this and restart  service'); 
+  console.log(e);
+}
+
 
 socket.on('connect', () => {
     console.log('Connected'); 
@@ -54,7 +69,6 @@ function onPayload (payload) {
 
     console.log('New Encrypted Msg Length: ' + encryptedMsg.length); 
 
-    try {
         // Printer commands to generate a receipt. 
         device.open(function() {
             try {
@@ -70,11 +84,6 @@ function onPayload (payload) {
                 console.log(e); 
             }
         });
-    }
-    catch (e) {
-        console.log('Unable to open a printer: Reconnect');
-        console.log(e); 
-    } 
 }
 
 function generateHeader(date, time, key) {
