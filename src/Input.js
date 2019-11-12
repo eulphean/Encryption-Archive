@@ -40,10 +40,11 @@ class Input {
 
         // Reset text area, button and private key label
         this.textInput.value(''); 
-        this.disableButton();
 
         // Callback to encrypt saved text input. 
         onEncrypt(inputText); 
+        
+        this.disableButton();
     }
 
     onInput() {

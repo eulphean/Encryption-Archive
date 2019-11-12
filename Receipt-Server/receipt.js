@@ -54,18 +54,27 @@ function onPayload (payload) {
 
     console.log('New Encrypted Msg Length: ' + encryptedMsg.length); 
 
-    // Printer commands to generate a receipt. 
-    device.open(function() {
-       // Set basic styles. 
-       generateHeader(date, time, key); 
-    //    printer.drawLine(); 
-       printer.newLine(); 
-       generateMiddle(encryptedMsg);
-    //    printer.drawLine(); 
-       generateFooter(); 
-       printer.cut(0, 5);
-       printer.flush();  
-    });
+    try {
+        // Printer commands to generate a receipt. 
+        device.open(function() {
+            try {
+                // Set basic styles. 
+                generateHeader(date, time, key); 
+                printer.newLine(); 
+                generateMiddle(encryptedMsg);
+                generateFooter(); 
+                printer.cut(0, 5);
+                printer.flush();  
+            } catch (e) {
+                console.log('Failure while printing: Check if we have run out of paper.');
+                console.log(e); 
+            }
+        });
+    }
+    catch (e) {
+        console.log('Unable to open a printer: Reconnect');
+        console.log(e); 
+    } 
 }
 
 function generateHeader(date, time, key) {
