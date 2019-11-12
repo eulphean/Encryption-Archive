@@ -84,9 +84,12 @@ function generateHeader(date, time, key) {
     printer.style('b');
     printer.size(2, 2); 
 
-    printer.text('ENCRYPTION ARCHIVE'); 
+    printer.text(' ENCRYPTION ARCHIVE '); 
     printer.size(1, 1); 
-    printer.text('     www.encryptionarchive.net     '); 
+    printer.setReverseColors(false);
+    printer.newLine(); 
+    printer.setReverseColors(true); 
+    printer.text(' www.encryptionarchive.net '); 
     printer.newLine(); 
 
     // ------------- Date, Time, Key ---------- // 
@@ -106,7 +109,7 @@ function generateHeader(date, time, key) {
 function generateMiddle(encryptedMsg) {
     // ------------- Title -------------- // 
     printer.setReverseColors(true); 
-    printer.text('ENCRYPTED MESSAGE'); 
+    printer.text(' ENCRYPTED MESSAGE '); 
     printer.newLine();
 
     // ------------- Message -------------- // 
@@ -127,7 +130,7 @@ function generateFooter() {
     printer.font('a'); 
     printer.style('b'); 
     printer.size(1, 1); 
-    printer.text('DYLAN FISH'); 
+    printer.text(' DYLAN FISH '); 
 }
 
 function printMessage(encryptedMsg) {
