@@ -52,7 +52,7 @@ function onPayload (payload) {
     // Modify encrypted message to fit it in receipt. 
     encryptedMsg = fitMessageInReceipt(encryptedMsg); 
     console.log('New Encrypted Msg Length: ' + encryptedMsg.length); 
-    
+
     try {
         // Printer commands to generate a receipt. 
         device.open(function() {
@@ -86,7 +86,7 @@ function generateHeader(date, time, key) {
 
     printer.text('ENCRYPTION ARCHIVE'); 
     printer.size(1, 1); 
-    printer.text('www.encryptionarchive.net'); 
+    printer.text('     www.encryptionarchive.net     '); 
     printer.newLine(); 
 
     // ------------- Date, Time, Key ---------- // 
