@@ -18,29 +18,27 @@ var escpos = require('escpos');
 // Setup device and printer with the baudrate. 
 // '/dev/cu.Repleo-PL2303-00002014'
 
-var device; 
+var device, printer; 
 try {	
     device = new escpos.Serial('/dev/ttyUSB0', {
-    autoOpen: true,
-    baudRate: 38400, 
-  });
-  console.log(device);
-}catch (e) {
-  console.log('Failure while printing: Check if we have run out of paper.');
+        autoOpen: true,
+        baudRate: 38400, 
+    });
+    printer = new escpos.Printer(device); 
+
+} catch (e) {
+  console.log('Unable to find a printer device. Disconnect and try again.');
   console.log(e); 
 }
-
-
-const printer = new escpos.Printer(device);
 
 try {
   // Clean Printer Routine (don't mess with this)
   printer.feed(1);
   printer.cut(0, 5);
   printer.flush();
-}catch (e) {
+} catch (e) {
   console.log('Failure while printing: Check if we have run out of paper.');
-  console.log('Close this and restart  service'); 
+  console.log('Close this and restart service'); 
   console.log(e);
 }
 
