@@ -30,7 +30,7 @@ printer.feed(1);
 printer.cut(0, 5);
 printer.flush();
 
-socket.on('connect', () => {
+socket.once('connect', () => {
     console.log('Connected'); 
     socket.on('printPayload', onPayload);
     socket.on('time', logTime); 
