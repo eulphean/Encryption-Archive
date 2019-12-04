@@ -11,7 +11,7 @@ function setup(){
   table.width = displayWidth; // Change
   setupTableTitle(); 
 
-  socket = io(herokuURL, { 
+  socket = io(localhostURL, { 
     reconnection: true,
     reconnectionDelay: 500, 
     reconnectionAttempts: Infinity 
@@ -92,8 +92,10 @@ function showEntries(entries) {
 }
 
 function downloadImage(imageData) {
+  console.log('Download Image');
   var weave = document.getElementById('weave');
   weave.href = imageData;
+  console.log(weave);
   var date = new Date(); 
   var dateString = date.toDateString();
   var timeString = date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(); 
