@@ -56,7 +56,7 @@ function onHerokuAppConnected(socket) {
     socket.on('disconnect', () => console.log('Heroku Client ' + socket.id + ' diconnected'));
 }
 
-var otherParams; 
+var externalBufferRows; 
 function onReadEntries(data) {
     console.log('Request to Read entries from ' + data.from + ' to ' + data.to);
 
@@ -66,25 +66,22 @@ function onReadEntries(data) {
         sqlQueryCallback = showEntriesCallback;
     } else if (data.state == 'download') {
         sqlQueryCallback = downloadEntriesCallback; 
-        otherParams = {
-            erows : data.erows,
-            irows : data.irows
-        }; 
+        externalBufferRows = data.erows; 
     }
     
     // Creating the query
     var queryText = ''; 
     if (data.from && data.to) {
-        queryText = 'SELECT * FROM entries WHERE date >= $1 AND date <= $2';
+        queryText = 'SELECT * FROM entries WHERE date >= $1 AND date <= $2 ORDER BY date ASC';
         pool.query(queryText, [data.from, data.to], sqlQueryCallback); 
     } else if (data.from && !data.to) {
-        queryText = 'SELECT * FROM entries WHERE date >= $1'; 
+        queryText = 'SELECT * FROM entries WHERE date >= $1 ORDER BY date ASC'; 
         pool.query(queryText, [data.from], sqlQueryCallback); 
     } else if (data.to && !data.from) {
-        queryText = 'SELECT * FROM entries WHERE date <= $1'; 
+        queryText = 'SELECT * FROM entries WHERE date <= $1 ORDER BY date ASC'; 
         pool.query(queryText, [data.to], sqlQueryCallback); 
     } else {
-        queryText = 'SELECT * FROM entries'; 
+        queryText = 'SELECT * FROM entries ORDER BY date ASC'; 
         pool.query(queryText, sqlQueryCallback); 
     }
 }
@@ -115,10 +112,7 @@ function downloadEntriesCallback(error, results) {
     }
 
     // Create an image with all these processed images. 
-    imgBuilder.createImage(processedMessages, otherParams.erows, onImage); 
-
-    // // We have expanded messages at this point. 
-    // var weaveString = imgBuilder.createWeaveString(processedMessages, otherParams.irows);
+    imgBuilder.createImage(processedMessages, externalBufferRows, onImage); 
 
     storeSocket.emit('showEntries', results.rows); 
 }
