@@ -42,7 +42,7 @@ function setup() {
     reconnectionDelay: 500, 
     reconnectionAttempts: Infinity
   }); 
-  socket.on('connect', onConnected); 
+  socket.once('connect', onConnected); 
 }
 
 function draw() {

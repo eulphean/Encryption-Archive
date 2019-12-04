@@ -56,7 +56,7 @@ function onHerokuAppConnected(socket) {
     socket.on('disconnect', () => console.log('Heroku Client ' + socket.id + ' diconnected'));
 }
 
-var otherParams; 
+var externalBufferRows; 
 function onReadEntries(data) {
     console.log('Request to Read entries from ' + data.from + ' to ' + data.to);
 
@@ -66,25 +66,22 @@ function onReadEntries(data) {
         sqlQueryCallback = showEntriesCallback;
     } else if (data.state == 'download') {
         sqlQueryCallback = downloadEntriesCallback; 
-        otherParams = {
-            erows : data.erows,
-            irows : data.irows
-        }; 
+        externalBufferRows = data.erows; 
     }
     
     // Creating the query
     var queryText = ''; 
     if (data.from && data.to) {
-        queryText = 'SELECT * FROM entries WHERE date >= $1 AND date <= $2';
+        queryText = 'SELECT * FROM entries WHERE date >= $1 AND date <= $2 ORDER BY date ASC';
         pool.query(queryText, [data.from, data.to], sqlQueryCallback); 
     } else if (data.from && !data.to) {
-        queryText = 'SELECT * FROM entries WHERE date >= $1'; 
+        queryText = 'SELECT * FROM entries WHERE date >= $1 ORDER BY date ASC'; 
         pool.query(queryText, [data.from], sqlQueryCallback); 
     } else if (data.to && !data.from) {
-        queryText = 'SELECT * FROM entries WHERE date <= $1'; 
+        queryText = 'SELECT * FROM entries WHERE date <= $1 ORDER BY date ASC'; 
         pool.query(queryText, [data.to], sqlQueryCallback); 
     } else {
-        queryText = 'SELECT * FROM entries'; 
+        queryText = 'SELECT * FROM entries ORDER BY date ASC'; 
         pool.query(queryText, sqlQueryCallback); 
     }
 }
@@ -106,15 +103,17 @@ function downloadEntriesCallback(error, results) {
     var processedMessages = []; 
     var entries = results.rows; 
     for (var i in entries) {
-        var encrypted = entries[i].encrypted; 
-        var newMsg = imgBuilder.expandMessage(encrypted); 
-        processedMessages.push(newMsg); 
+        // Fit the message into 1/4 of the actual usable width
+        // Expand the message with the new convention of 0 and 1. 
+        // Store these messages in the processed messages vector. 
+        var fitMessage = imgBuilder.fitString(entries[i].encrypted); 
+        var expandedMessage = imgBuilder.expandMessage(fitMessage); 
+        processedMessages.push(expandedMessage); 
     }
 
-    // We have expanded messages at this point. 
-    var weaveString = imgBuilder.createWeaveString(processedMessages, otherParams.irows);
     // Create an image with all these processed images. 
-    imgBuilder.createImage(weaveString, otherParams.erows, onImage); 
+    imgBuilder.createImage(processedMessages, externalBufferRows, onImage); 
+
     storeSocket.emit('showEntries', results.rows); 
 }
 

@@ -17,7 +17,7 @@ function setup(){
     reconnectionAttempts: Infinity 
   }); 
 
-  socket.on('connect', onConnected); 
+  socket.once('connect', onConnected); 
 }
 
 function logTime(time) {
@@ -42,17 +42,15 @@ function getData(s) {
   var startDate = document.getElementById('start').value; 
   var endDate = document.getElementById('end').value; 
   var externalBufferRows = document.getElementById('externalbuffer').value
-  var inbetweenBufferRows = document.getElementById('inbetweenbuffer').value;
 
   var data = { 
     from: startDate, 
     to: endDate,
     state: s, // Determines what kind of callback to fire from the store. 
-    erows: externalBufferRows,
-    irows: inbetweenBufferRows
+    erows: externalBufferRows
   }; 
 
-  console.log('Browser payload: ' + data.erows + ' ' + data.irows); 
+  console.log('Browser payload: ' + data.erows); 
 
   return data; 
 }
@@ -69,6 +67,8 @@ function onConnected() {
 
 function showEntries(entries) {
   console.log('Received Entries from the Store');
+  var numEntries = document.getElementById('numentries');
+  numEntries.innerHTML = entries.length; 
 
   // Take this payload and show it in the table
   for (var i in entries) {
@@ -92,8 +92,12 @@ function showEntries(entries) {
 }
 
 function downloadImage(imageData) {
+  console.log('Download Image');
   var weave = document.getElementById('weave');
-  weave.href = imageData;
+  // Convert the imageData to a blob because the length of this
+  // string can be really really long. 
+  weave.href = URL.createObjectURL(dataURItoBlob(imageData));
+  console.log(weave);
   var date = new Date(); 
   var dateString = date.toDateString();
   var timeString = date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds(); 
@@ -128,4 +132,24 @@ function setupTableTitle() {
   var binaryCell = row.insertCell(3);
   binaryCell.innerHTML = 'BINARY STRING';
   binaryCell.width = '70%';
+}
+
+function dataURItoBlob(dataURI) {
+  // convert base64 to raw binary data held in a string
+  // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+  var byteString = atob(dataURI.split(',')[1]);
+
+  // separate out the mime component
+  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+  // write the bytes of the string to an ArrayBuffer
+  var ab = new ArrayBuffer(byteString.length);
+  var ia = new Uint8Array(ab);
+  for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+  }
+
+  // write the ArrayBuffer to a blob, and you're done
+  var bb = new Blob([ab]);
+  return bb;
 }
