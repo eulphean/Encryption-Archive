@@ -27,7 +27,7 @@ function setup() {
 
   // Colors
   white = color(255, 255, 255); black = color(0, 0, 0);
-
+ 
   // Total 12h units of height. 
   title = new Title(); // 1h unit high
   output = new Output(); // 8h units high

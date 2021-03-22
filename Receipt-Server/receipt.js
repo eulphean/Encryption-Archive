@@ -2,12 +2,6 @@ var io = require('socket.io-client');
 var localhostURL = "http://localhost:5000/receipt"
 var herokuURL = "https://mysterious-shore-86207.herokuapp.com/receipt";
 
-// Constants
-var numBufferRows = 5; // It can be any number. 
-var numBufferColums = 4; // It can be 2 or 4 only.
-var numColsInReceipt = 48; 
-var usableColums = numColsInReceipt - numBufferColums * 2; 
-
 var socket = io.connect(herokuURL, {
     reconnection: true, 
     reconnectionDelay: 500, 
