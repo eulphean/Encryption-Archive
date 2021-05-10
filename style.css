@@ -19,11 +19,14 @@
     --paddingHorizontalMobile: 23px; 
     --paddingVertical: 80px;
     --bgColor: black; 
-    --pureGreen: #00FF00; 
+    --linkColor:#de2910; 
+    --modalColor: #ffde00;
+    --linkColorOld: #00FF00;
     --topHeight: 6vh; 
     /* Any changes here must be changed in main.js canvasHeightFactor as well. */
     --outputHeight: 65vh; 
     --bottomPosition: 75vh; 
+
 }
 
 body, html {
@@ -43,7 +46,7 @@ body, html {
 }
 
 a {
-    color:var(--pureGreen); 
+    color:var(--linkColor); 
 }
 
 a:hover {
@@ -76,6 +79,22 @@ a:hover {
     box-sizing: border-box;
 }
 
+.language {
+    margin-right: 10px;
+}
+
+.currentLang {
+    color: var(--linkColor);
+    text-decoration: underline;
+}
+
+.tab {
+    margin-right: 10px;
+}
+
+.name {
+    color: var(--modalColor);
+}
 
 /* Output styles */
 #middle {
@@ -143,7 +162,7 @@ a:hover {
 }
 
 .animate {
-    background-color: var(--pureGreen);
+    background-color: var(--linkColor);
 }
 
 .inputbutton:disabled {
@@ -175,7 +194,7 @@ textarea::placeholder {
 
 .modalTitle {
     font-size: var(--fontSizeDesktopModalTitle);
-    color: var(--pureGreen); 
+    color: var(--modalColor); 
     padding: 20px; 
 }
 

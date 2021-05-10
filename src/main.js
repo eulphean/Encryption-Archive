@@ -17,6 +17,8 @@ var encrypter;
 // Socket IO
 var socket; 
 
+var translator;
+
 var localhostURL = "http://localhost:5000/app"
 var herokuURL = "https://mysterious-shore-86207.herokuapp.com/app";
 
@@ -26,7 +28,9 @@ function setup() {
   initModal();
 
   // Colors
-  white = color(255, 255, 255); black = color(0, 0, 0);
+  // white = color(255, 255, 255); black = color(0, 0, 0);
+  white = color('#de2910');
+  black = color('#ffde00');
  
   // Total 12h units of height. 
   title = new Title(); // 1h unit high
@@ -35,6 +39,7 @@ function setup() {
 
   // Initialize Encryption engine. 
   encrypter = new Encrypter();
+  translator = new Translator();
   
   // Connect to the socket, subscribe to events. 
   socket = io(herokuURL, { 
@@ -103,9 +108,20 @@ function initModal() {
   console.log(content); 
   modal.setContent(content.innerHTML);
 
+  
   // // add a button
   modal.addFooterBtn('CLOSE', 'tingle-btn tingle-btn--primary', ()=> {
       // here goes some logic
       modal.close();
   });
+}
+
+function onTranslate(lang) {
+  if (lang == 'eng') {
+    translator.translateEnglish();
+  } 
+
+  if (lang === 'cn') {
+    translator.translateChinese();
+  }
 }

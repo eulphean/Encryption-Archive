@@ -31,7 +31,7 @@ class Input {
     }
 
     setPrivateKey(key) {
-        this.key.html(key); 
+        this.key.html(key);
     }
 
     onClick(onEncrypt) {  
