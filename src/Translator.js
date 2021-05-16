@@ -2,7 +2,7 @@ class Translator {
     constructor() {
         // Main page
         this.title = select('.title');
-        this.about = select('.about');
+        // this.about = select('.about');
         this.private = select('.pkey');
         this.textInput = select('.textinput'); 
         this.submit = select('.inputbutton');
@@ -35,8 +35,8 @@ class Translator {
 
     translateEnglish() {
         this.title.html('Encryption Archive');
-        this.about.html('About');
-        this.private.html('Private Key |');
+        // this.about.html('About');
+        this.private.html('Private Key | ');
         this.submit.html('SUBMIT');
         this.textInput.attribute('placeholder', 'Type Something...');
 
@@ -64,11 +64,11 @@ class Translator {
 
     translateChinese() {
         // Main page
-        this.title.html('加密 档案');
-        this.about.html('Chinese About');
-        this.private.html('私人的 钥匙');
-        this.submit.html('提交');
-        this.textInput.attribute('placeholder', '类型 某物');
+        this.title.html('加密档案库');
+        // this.about.html('Chinese About');
+        this.private.html('加密私钥 | ');
+        this.submit.html('确定');
+        this.textInput.attribute('placeholder', '在这儿输入点什么.....');
 
         // About page
         this.modalProject.html('Chinese About');

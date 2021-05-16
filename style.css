@@ -71,9 +71,12 @@ a:hover {
     align-items: center; 
 }
 
+.about {
+    visibility: hidden;
+}
+
 .aboutCollection {
     display: flex; 
-    visibility: hidden;
     align-items: center; 
     justify-content: flex-end; 
     width: 25%;
@@ -91,6 +94,7 @@ a:hover {
 
 .tab {
     margin-right: 10px;
+    visibility: hidden;
 }
 
 .name {
@@ -275,6 +279,7 @@ textarea::placeholder {
 
     #infocontainer {
         height: 8vh;
+        width: 100%;
     }
 
     #inputcontainer {
