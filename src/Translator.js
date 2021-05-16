@@ -29,6 +29,8 @@ class Translator {
         this.chineseBtn = select('.cn');
 
         this.closeButton = select('.tingle-btn');
+
+        this.translateChinese();
     }
 
     translateEnglish() {
@@ -62,11 +64,11 @@ class Translator {
 
     translateChinese() {
         // Main page
-        this.title.html('Chinese Title');
+        this.title.html('加密 档案');
         this.about.html('Chinese About');
-        this.private.html('Chinese Private');
-        this.submit.html('Chinese Submit');
-        this.textInput.attribute('placeholder', 'Chinese Placeholder');
+        this.private.html('私人的 钥匙');
+        this.submit.html('提交');
+        this.textInput.attribute('placeholder', '类型 某物');
 
         // About page
         this.modalProject.html('Chinese About');
