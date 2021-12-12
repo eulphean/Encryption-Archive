@@ -9,5 +9,4 @@ For 2019 HangZhou Bienniel, Montreal based visual artist [Dylan Fish](https://ww
 
 This work is developed using open-source libraries like [React.js](https://reactjs.org/) and [Node.js](https://nodejs.org/en/).
 
-![EA](https://user-images.githubusercontent.com/4178424/145727946-a83699ed-3a05-4d10-b239-b61f32de17f7.PNG)
-
+![EA](https://user-images.githubusercontent.com/4178424/145728080-4db27405-75e9-4322-ae96-d1a89237c8c3.PNG)
